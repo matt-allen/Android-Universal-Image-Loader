@@ -18,9 +18,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by Matt Allen
- * 24/07/15
- * mattallen092@gmail.com
+ * Base class for all image stream opening. Includes basic network connectivity methods
+ *
+ * @author Matt Allen
+ * @project UniversalImageLoader
  */
 public class FileSchemeHandler extends SchemeHandler
 {
@@ -47,13 +48,14 @@ public class FileSchemeHandler extends SchemeHandler
 		}
 	}
 
-	private boolean isVideoUri(String uri) {
+	protected boolean isVideoUri(String uri)
+	{
 		String extension = MimeTypeMap.getFileExtensionFromUrl(uri);
 		String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 		return mimeType != null && mimeType.startsWith("video/");
 	}
 
-	private InputStream getVideoThumbnailStream(String filePath)
+	protected InputStream getVideoThumbnailStream(String filePath)
 	{
 		Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
 		if (bitmap != null) {

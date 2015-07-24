@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -12,13 +13,20 @@ import java.io.InputStream;
  * @author Matt Allen
  * @project UniversalImageLoader
  */
-public class DrawableSchemeHandler extends SchemeHandler
+public class AssetsSchemeHandler extends SchemeHandler
 {
 	@Override
 	public InputStream getStreamForPath(Context context, String path, Object optionForDownloader, int connectTimeout, int readTimeout)
 	{
-		String drawableIdString = ImageDownloader.Scheme.DRAWABLE.crop(path);
-		int drawableId = Integer.parseInt(drawableIdString);
-		return context.getResources().openRawResource(drawableId);
+		try
+		{
+			String filePath = ImageDownloader.Scheme.ASSETS.crop(path);
+			return context.getAssets().open(filePath);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
