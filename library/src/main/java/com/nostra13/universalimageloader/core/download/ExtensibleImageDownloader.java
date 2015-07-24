@@ -1,7 +1,6 @@
 package com.nostra13.universalimageloader.core.download;
 
 import android.content.Context;
-import android.net.Uri;
 
 import com.nostra13.universalimageloader.core.download.handlers.ContentSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
@@ -90,7 +89,7 @@ public class ExtensibleImageDownloader implements ImageDownloader
 	@Override
 	public InputStream getStream(String imageUri, Object extra) throws IOException
 	{
-		String schema = Uri.parse(imageUri).getLastPathSegment();
+		String schema = imageUri.split(":")[0];
 		if (mHandlers.containsKey(schema))
 		{
 			return mHandlers.get(schema).getStreamForPath(context, imageUri, extra, connectTimeout, readTimeout);
