@@ -3,9 +3,13 @@ package com.nostra13.universalimageloader.core.download;
 import android.content.Context;
 import android.net.Uri;
 
+import com.nostra13.universalimageloader.core.download.handlers.ContentSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandler;
+import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemaDownloader;
+import com.nostra13.universalimageloader.core.download.handlers.HttpSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
+import com.nostra13.universalimageloader.core.download.handlers.StaticMapSchemeHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * // TODO Add class description
+ * Image downloader class that can accommodate adapters for schemas, letting you
+ * create a new file schema with minimal effort
  *
  * @author Matt Allen
  * @project UniversalImageLoader
@@ -21,18 +26,9 @@ import java.util.Map;
 public class ExtensibleImageDownloader implements ImageDownloader
 {
 	/** {@value} */
-	public static final int DEFAULT_HTTP_CONNECT_TIMEOUT = 5 * 1000; // milliseconds
+	public static final int DEFAULT_HTTP_CONNECT_TIMEOUT = 5 * 1000;
 	/** {@value} */
-	public static final int DEFAULT_HTTP_READ_TIMEOUT = 20 * 1000; // milliseconds
-
-	/** {@value} */
-	protected static final int BUFFER_SIZE = 32 * 1024; // 32 Kb
-	/** {@value} */
-	protected static final String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
-
-	protected static final int MAX_REDIRECT_COUNT = 5;
-
-	protected static final String CONTENT_CONTACTS_URI_PREFIX = "content://com.android.contacts/";
+	public static final int DEFAULT_HTTP_READ_TIMEOUT = 20 * 1000;
 
 	private Map<String, SchemeHandler> mHandlers;
 
@@ -62,8 +58,14 @@ public class ExtensibleImageDownloader implements ImageDownloader
 		else
 		{
 			mHandlers = new HashMap<>();
+			HttpSchemeHandler http = new HttpSchemeHandler();
 			mHandlers.put("file", new FileSchemeHandler());
 			mHandlers.put("drawable", new DrawableSchemeHandler());
+			mHandlers.put("content", new ContentSchemeHandler());
+			mHandlers.put("http", http);
+			mHandlers.put("https", http);
+			mHandlers.put("flickr", new FlickrSchemaDownloader());
+			mHandlers.put("maps", new StaticMapSchemeHandler());
 		}
 	}
 
