@@ -21,6 +21,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0-rc3'
     testCompile 'com.squareup.assertj:assertj-android:1.0.0'
+	compile 'com.google.code.gson:gson:2.3.1'
 }
 
 

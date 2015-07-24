@@ -66,10 +66,14 @@ public class ImageLoader {
 	private volatile static ImageLoader instance;
 
 	/** Returns singleton class instance */
-	public static ImageLoader getInstance() {
-		if (instance == null) {
-			synchronized (ImageLoader.class) {
-				if (instance == null) {
+	public static ImageLoader getInstance()
+	{
+		if (instance == null)
+		{
+			synchronized (ImageLoader.class)
+			{
+				if (instance == null)
+				{
 					instance = new ImageLoader();
 				}
 			}
@@ -77,7 +81,9 @@ public class ImageLoader {
 		return instance;
 	}
 
-	protected ImageLoader() {
+	protected ImageLoader()
+	{
+		super();
 	}
 
 	/**
@@ -88,7 +94,8 @@ public class ImageLoader {
 	 * @param configuration {@linkplain ImageLoaderConfiguration ImageLoader configuration}
 	 * @throws IllegalArgumentException if <b>configuration</b> parameter is null
 	 */
-	public synchronized void init(ImageLoaderConfiguration configuration) {
+	public synchronized void init(ImageLoaderConfiguration configuration)
+	{
 		if (configuration == null) {
 			throw new IllegalArgumentException(ERROR_INIT_CONFIG_WITH_NULL);
 		}
@@ -203,25 +210,32 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageAware</b> is null
 	 */
-	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options,
-			ImageLoadingListener listener, ImageLoadingProgressListener progressListener) {
+	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
 		checkConfiguration();
-		if (imageAware == null) {
+		if (imageAware == null)
+		{
 			throw new IllegalArgumentException(ERROR_WRONG_ARGUMENTS);
 		}
-		if (listener == null) {
+		if (listener == null)
+		{
 			listener = defaultListener;
 		}
-		if (options == null) {
+		if (options == null)
+		{
 			options = configuration.defaultDisplayImageOptions;
 		}
 
-		if (TextUtils.isEmpty(uri)) {
+		if (TextUtils.isEmpty(uri))
+		{
 			engine.cancelDisplayTaskFor(imageAware);
 			listener.onLoadingStarted(uri, imageAware.getWrappedView());
-			if (options.shouldShowImageForEmptyUri()) {
+			if (options.shouldShowImageForEmptyUri())
+			{
 				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
-			} else {
+			}
+			else
+			{
 				imageAware.setImageDrawable(null);
 			}
 			listener.onLoadingComplete(uri, imageAware.getWrappedView(), null);
@@ -235,37 +249,54 @@ public class ImageLoader {
 		listener.onLoadingStarted(uri, imageAware.getWrappedView());
 
 		Bitmap bmp = configuration.memoryCache.get(memoryCacheKey);
-		if (bmp != null && !bmp.isRecycled()) {
+		if (bmp != null && !bmp.isRecycled())
+		{
 			L.d(LOG_LOAD_IMAGE_FROM_MEMORY_CACHE, memoryCacheKey);
 
-			if (options.shouldPostProcess()) {
-				ImageLoadingInfo imageLoadingInfo = new ImageLoadingInfo(uri, imageAware, targetSize, memoryCacheKey,
-						options, listener, progressListener, engine.getLockForUri(uri));
-				ProcessAndDisplayImageTask displayTask = new ProcessAndDisplayImageTask(engine, bmp, imageLoadingInfo,
-						defineHandler(options));
-				if (options.isSyncLoading()) {
+			if (options.shouldPostProcess())
+			{
+				ImageLoadingInfo imageLoadingInfo = new ImageLoadingInfo(uri, imageAware,
+						targetSize, memoryCacheKey, options, listener, progressListener, engine.getLockForUri(uri));
+
+				ProcessAndDisplayImageTask displayTask = new ProcessAndDisplayImageTask(engine, bmp, imageLoadingInfo, defineHandler(options));
+				if (options.isSyncLoading())
+				{
 					displayTask.run();
-				} else {
+				}
+				else
+				{
 					engine.submit(displayTask);
 				}
-			} else {
+			}
+			else
+			{
 				options.getDisplayer().display(bmp, imageAware, LoadedFrom.MEMORY_CACHE);
 				listener.onLoadingComplete(uri, imageAware.getWrappedView(), bmp);
 			}
-		} else {
-			if (options.shouldShowImageOnLoading()) {
+		}
+		else
+		{
+			if (options.shouldShowImageOnLoading())
+			{
 				imageAware.setImageDrawable(options.getImageOnLoading(configuration.resources));
-			} else if (options.isResetViewBeforeLoading()) {
+			}
+			else if (options.isResetViewBeforeLoading())
+			{
 				imageAware.setImageDrawable(null);
 			}
 
 			ImageLoadingInfo imageLoadingInfo = new ImageLoadingInfo(uri, imageAware, targetSize, memoryCacheKey,
 					options, listener, progressListener, engine.getLockForUri(uri));
+
 			LoadAndDisplayImageTask displayTask = new LoadAndDisplayImageTask(engine, imageLoadingInfo,
 					defineHandler(options));
-			if (options.isSyncLoading()) {
+
+			if (options.isSyncLoading())
+			{
 				displayTask.run();
-			} else {
+			}
+			else
+			{
 				engine.submit(displayTask);
 			}
 		}
