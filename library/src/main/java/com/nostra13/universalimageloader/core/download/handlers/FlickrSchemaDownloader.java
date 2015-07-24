@@ -3,6 +3,11 @@ package com.nostra13.universalimageloader.core.download.handlers;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.helper.FlickrServiceHelper;
 
 import java.io.BufferedReader;
