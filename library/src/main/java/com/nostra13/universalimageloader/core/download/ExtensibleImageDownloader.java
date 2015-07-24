@@ -1,7 +1,9 @@
 package com.nostra13.universalimageloader.core.download;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
 
 import java.io.IOException;
@@ -59,18 +61,16 @@ public class ExtensibleImageDownloader implements ImageDownloader
 		else
 		{
 			mHandlers = new HashMap<String, SchemeHandler>();
+			mHandlers.put("file", new FileSchemeHandler());
 		}
 	}
 
-	public void addDownloader(String schema, SchemeHandler handler)
+	public void registerHandler(String schema, SchemeHandler handler)
 	{
-		if (!mHandlers.containsKey(schema))
-		{
-			mHandlers.put(schema, handler);
-		}
+		mHandlers.put(schema, handler);
 	}
 
-	public void removeDownloader(String schema)
+	public void removeHandler(String schema)
 	{
 		if (mHandlers.containsKey(schema))
 		{
@@ -78,7 +78,7 @@ public class ExtensibleImageDownloader implements ImageDownloader
 		}
 	}
 
-	public void setDownloaders(Map<String, SchemeHandler> handlers)
+	public void setHandlers(Map<String, SchemeHandler> handlers)
 	{
 		mHandlers = handlers;
 	}
@@ -86,6 +86,11 @@ public class ExtensibleImageDownloader implements ImageDownloader
 	@Override
 	public InputStream getStream(String imageUri, Object extra) throws IOException
 	{
+		String schema = Uri.parse(imageUri).getLastPathSegment();
+		if (mHandlers.containsKey(schema))
+		{
+			return mHandlers.get(schema).getStreamForPath(context, imageUri, extra, connectTimeout, readTimeout);
+		}
 		return null;
 	}
 }
