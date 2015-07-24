@@ -3,6 +3,7 @@ package com.nostra13.universalimageloader.core.download;
 import android.content.Context;
 import android.net.Uri;
 
+import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
 
@@ -60,8 +61,9 @@ public class ExtensibleImageDownloader implements ImageDownloader
 		}
 		else
 		{
-			mHandlers = new HashMap<String, SchemeHandler>();
+			mHandlers = new HashMap<>();
 			mHandlers.put("file", new FileSchemeHandler());
+			mHandlers.put("drawable", new DrawableSchemeHandler());
 		}
 	}
 
