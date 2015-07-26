@@ -28,6 +28,8 @@ import com.nostra13.universalimageloader.core.assist.FlushedInputStream;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.assist.ViewScaleType;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
+import com.nostra13.universalimageloader.core.helper.FlickrServiceHelper;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.imageaware.NonViewAware;
@@ -114,6 +116,62 @@ public class ImageLoader {
 	 */
 	public boolean isInited() {
 		return configuration != null;
+	}
+
+	/**
+	 * Access the downloader. This will allow for adding of scheme handlers.
+	 * @return The current downloader class
+	 */
+	public ImageDownloader getDownloader()
+	{
+		return configuration.downloader;
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view)
+	{
+		displayFlickrImage(lat, lng, view, null, null);
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options)
+	{
+		displayFlickrImage(lat, lng, view, options, null);
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
+		displayImage(url, view, options, listener);
+	}
+
+	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener)
+	{
+		loadFlickrImage(lat, lng, null, listener, null);
+	}
+
+	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadFlickrImage(lat, lng, options, listener, null);
+	}
+
+	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		loadFlickrImage(lat, lng, null, listener, progressListener);
+	}
+
+	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
+		loadImage(url, null, options, listener, progressListener);
+	}
+
+	public void loadStaticMapImage()
+	{
+
+	}
+
+	public void displayStaticMapImage()
+	{
+
 	}
 
 	/**
