@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * @author Matt Allen
  * @project UniversalImageLoader
  */
-public class FlickrSchemaDownloader extends SchemeHandler
+public class FlickrSchemeDownloader extends SchemeHandler
 {
 	private static final String BASE_URL = "https://api.flickr.com/services/rest";
 	private static final String GROUP_ID = "1463451@N25";

@@ -5,7 +5,7 @@ import android.content.Context;
 import com.nostra13.universalimageloader.core.download.handlers.ContentSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandler;
-import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemaDownloader;
+import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemeDownloader;
 import com.nostra13.universalimageloader.core.download.handlers.HttpSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.StaticMapSchemeHandler;
@@ -63,21 +63,21 @@ public class ExtensibleImageDownloader implements ImageDownloader
 			mHandlers.put("content", new ContentSchemeHandler());
 			mHandlers.put("http", http);
 			mHandlers.put("https", http);
-			mHandlers.put("flickr", new FlickrSchemaDownloader());
+			mHandlers.put("flickr", new FlickrSchemeDownloader());
 			mHandlers.put("maps", new StaticMapSchemeHandler());
 		}
 	}
 
-	public void registerHandler(String schema, SchemeHandler handler)
+	public void registerHandler(String scheme, SchemeHandler handler)
 	{
-		mHandlers.put(schema, handler);
+		mHandlers.put(scheme, handler);
 	}
 
-	public void removeHandler(String schema)
+	public void removeHandler(String scheme)
 	{
-		if (mHandlers.containsKey(schema))
+		if (mHandlers.containsKey(scheme))
 		{
-			mHandlers.remove(schema);
+			mHandlers.remove(scheme);
 		}
 	}
 

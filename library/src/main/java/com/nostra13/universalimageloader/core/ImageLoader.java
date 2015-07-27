@@ -28,6 +28,11 @@ import com.nostra13.universalimageloader.core.assist.FlushedInputStream;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.assist.ViewScaleType;
+import com.nostra13.universalimageloader.core.download.ExtensibleImageDownloader;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
+import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
+import com.nostra13.universalimageloader.core.helper.FlickrServiceHelper;
+import com.nostra13.universalimageloader.core.helper.GoogleMapsServiceHelper;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.imageaware.NonViewAware;
@@ -114,6 +119,114 @@ public class ImageLoader {
 	 */
 	public boolean isInited() {
 		return configuration != null;
+	}
+
+	/**
+	 * Access the downloader. This will allow for adding of scheme handlers.
+	 * @return The current downloader class
+	 */
+	public ImageDownloader getDownloader()
+	{
+		return configuration.downloader;
+	}
+
+	/**
+	 * Convenience method for adding a handler for a particular scheme
+	 * @param scheme The scheme this handler is supposed to handle
+	 * @param handler The {@linkplain SchemeHandler} implementation for this scheme
+	 */
+	public void registerSchemeHandler(String scheme, SchemeHandler handler)
+	{
+		if (configuration.downloader instanceof ExtensibleImageDownloader)
+		{
+			((ExtensibleImageDownloader)configuration.downloader).registerHandler(scheme, handler);
+		}
+	}
+
+	/**
+	 * Convenience method for removing a scheme handler based on the scheme it is intended to handle
+	 * @param scheme The scheme to stop handling
+	 */
+	public void removeSchemeHandler(String scheme)
+	{
+		if (configuration.downloader instanceof ExtensibleImageDownloader)
+		{
+			((ExtensibleImageDownloader)configuration.downloader).removeHandler(scheme);
+		}
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view)
+	{
+		displayFlickrImage(lat, lng, view, null, null);
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options)
+	{
+		displayFlickrImage(lat, lng, view, options, null);
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
+		displayImage(url, view, options, listener);
+	}
+
+	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener)
+	{
+		loadFlickrImage(lat, lng, null, listener, null);
+	}
+
+	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadFlickrImage(lat, lng, options, listener, null);
+	}
+
+	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		loadFlickrImage(lat, lng, null, listener, progressListener);
+	}
+
+	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
+		loadImage(url, null, options, listener, progressListener);
+	}
+
+	public void displayStaticMapImage(double lat, double lng, ImageAware view)
+	{
+		displayStaticMapImage(lat, lng, view, null, null);
+	}
+
+	public void displayStaticMapImage(double lat, double lng, ImageAware view, DisplayImageOptions options)
+	{
+		displayStaticMapImage(lat, lng, view, options, null);
+	}
+
+	public void displayStaticMapImage(double lat, double lng, ImageAware view, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		String url = GoogleMapsServiceHelper.getUriForLocation(lat, lng);
+		displayImage(url, view, options, listener);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, ImageLoadingListener listener)
+	{
+		loadStaticMapImage(lat, lng, null, listener, null);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadStaticMapImage(lat, lng, options, listener, null);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		loadStaticMapImage(lat, lng, null, listener, progressListener);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String url = GoogleMapsServiceHelper.getUriForLocation(lat, lng);
+		loadImage(url, null, options, listener, progressListener);
 	}
 
 	/**
