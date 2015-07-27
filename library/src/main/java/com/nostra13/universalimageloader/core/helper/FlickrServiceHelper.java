@@ -1,13 +1,14 @@
 package com.nostra13.universalimageloader.core.helper;
 
 /**
- * Created by Matt Allen
- * 24/07/15
- * mattallen092@gmail.com
+ * // TODO Class doc
+ *
+ * @author Matt Allen
+ * @project UniversalImageLoader
  */
 public class FlickrServiceHelper
 {
-	private static String flickrApiKey;
+	private static String flickrApiKey, groupId;
 
 	public static void setApiKey(String key)
 	{
@@ -22,5 +23,15 @@ public class FlickrServiceHelper
 	public static String getUriForLocation(double latitude, double longitude)
 	{
 		return "flickr://" + String.valueOf(latitude) + "/" + String.valueOf(longitude);
+	}
+
+	public static String getGroupId()
+	{
+		return groupId;
+	}
+
+	public static void setGroupId(String id)
+	{
+		groupId = id;
 	}
 }
