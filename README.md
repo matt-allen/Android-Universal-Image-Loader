@@ -32,8 +32,8 @@ new custom URI schemes you may be using within your app.
 "content://media/external/video/media/13" // from content provider (video thumbnail)
 "assets://image.png" // from assets
 "drawable://" + R.drawable.img // from drawables (non-9patch images)
-"flickr://-52.34509/-1.234242 // Will load image from Flickr for latitude (First arg) and longitude (Second arg)
-"maps://-47.195742/2.23049 // Get Google maps static image with a pin at this location
+"flickr://-52.34509/-1.234242" // Will load image from Flickr for latitude (First arg) and longitude (Second arg)
+"maps://-47.195742/2.23049" // Get Google maps static image with a pin at this location
 ```
 **NOTE:** Use `drawable://` only if you really need it! Always **consider the native way** to load drawables - `ImageView.setImageResource(...)` instead of using of `ImageLoader`.
 
