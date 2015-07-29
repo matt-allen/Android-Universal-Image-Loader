@@ -28,6 +28,11 @@ import com.nostra13.universalimageloader.core.assist.FlushedInputStream;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.assist.ViewScaleType;
+import com.nostra13.universalimageloader.core.download.ExtensibleImageDownloader;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
+import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
+import com.nostra13.universalimageloader.core.helper.FlickrServiceHelper;
+import com.nostra13.universalimageloader.core.helper.GoogleMapsServiceHelper;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.imageaware.NonViewAware;
@@ -66,10 +71,14 @@ public class ImageLoader {
 	private volatile static ImageLoader instance;
 
 	/** Returns singleton class instance */
-	public static ImageLoader getInstance() {
-		if (instance == null) {
-			synchronized (ImageLoader.class) {
-				if (instance == null) {
+	public static ImageLoader getInstance()
+	{
+		if (instance == null)
+		{
+			synchronized (ImageLoader.class)
+			{
+				if (instance == null)
+				{
 					instance = new ImageLoader();
 				}
 			}
@@ -77,7 +86,9 @@ public class ImageLoader {
 		return instance;
 	}
 
-	protected ImageLoader() {
+	protected ImageLoader()
+	{
+		super();
 	}
 
 	/**
@@ -88,7 +99,8 @@ public class ImageLoader {
 	 * @param configuration {@linkplain ImageLoaderConfiguration ImageLoader configuration}
 	 * @throws IllegalArgumentException if <b>configuration</b> parameter is null
 	 */
-	public synchronized void init(ImageLoaderConfiguration configuration) {
+	public synchronized void init(ImageLoaderConfiguration configuration)
+	{
 		if (configuration == null) {
 			throw new IllegalArgumentException(ERROR_INIT_CONFIG_WITH_NULL);
 		}
@@ -107,6 +119,114 @@ public class ImageLoader {
 	 */
 	public boolean isInited() {
 		return configuration != null;
+	}
+
+	/**
+	 * Access the downloader. This will allow for adding of scheme handlers.
+	 * @return The current downloader class
+	 */
+	public ImageDownloader getDownloader()
+	{
+		return configuration.downloader;
+	}
+
+	/**
+	 * Convenience method for adding a handler for a particular scheme
+	 * @param scheme The scheme this handler is supposed to handle
+	 * @param handler The {@linkplain SchemeHandler} implementation for this scheme
+	 */
+	public void registerSchemeHandler(String scheme, SchemeHandler handler)
+	{
+		if (configuration.downloader instanceof ExtensibleImageDownloader)
+		{
+			((ExtensibleImageDownloader)configuration.downloader).registerHandler(scheme, handler);
+		}
+	}
+
+	/**
+	 * Convenience method for removing a scheme handler based on the scheme it is intended to handle
+	 * @param scheme The scheme to stop handling
+	 */
+	public void removeSchemeHandler(String scheme)
+	{
+		if (configuration.downloader instanceof ExtensibleImageDownloader)
+		{
+			((ExtensibleImageDownloader)configuration.downloader).removeHandler(scheme);
+		}
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view)
+	{
+		displayFlickrImage(lat, lng, view, null, null);
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options)
+	{
+		displayFlickrImage(lat, lng, view, options, null);
+	}
+
+	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
+		displayImage(url, view, options, listener);
+	}
+
+	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener)
+	{
+		loadFlickrImage(lat, lng, null, listener, null);
+	}
+
+	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadFlickrImage(lat, lng, options, listener, null);
+	}
+
+	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		loadFlickrImage(lat, lng, null, listener, progressListener);
+	}
+
+	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
+		loadImage(url, null, options, listener, progressListener);
+	}
+
+	public void displayStaticMapImage(double lat, double lng, ImageAware view)
+	{
+		displayStaticMapImage(lat, lng, view, null, null);
+	}
+
+	public void displayStaticMapImage(double lat, double lng, ImageAware view, DisplayImageOptions options)
+	{
+		displayStaticMapImage(lat, lng, view, options, null);
+	}
+
+	public void displayStaticMapImage(double lat, double lng, ImageAware view, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		String url = GoogleMapsServiceHelper.getUriForLocation(lat, lng);
+		displayImage(url, view, options, listener);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, ImageLoadingListener listener)
+	{
+		loadStaticMapImage(lat, lng, null, listener, null);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadStaticMapImage(lat, lng, options, listener, null);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		loadStaticMapImage(lat, lng, null, listener, progressListener);
+	}
+
+	public void loadStaticMapImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String url = GoogleMapsServiceHelper.getUriForLocation(lat, lng);
+		loadImage(url, null, options, listener, progressListener);
 	}
 
 	/**
@@ -203,25 +323,32 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageAware</b> is null
 	 */
-	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options,
-			ImageLoadingListener listener, ImageLoadingProgressListener progressListener) {
+	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
 		checkConfiguration();
-		if (imageAware == null) {
+		if (imageAware == null)
+		{
 			throw new IllegalArgumentException(ERROR_WRONG_ARGUMENTS);
 		}
-		if (listener == null) {
+		if (listener == null)
+		{
 			listener = defaultListener;
 		}
-		if (options == null) {
+		if (options == null)
+		{
 			options = configuration.defaultDisplayImageOptions;
 		}
 
-		if (TextUtils.isEmpty(uri)) {
+		if (TextUtils.isEmpty(uri))
+		{
 			engine.cancelDisplayTaskFor(imageAware);
 			listener.onLoadingStarted(uri, imageAware.getWrappedView());
-			if (options.shouldShowImageForEmptyUri()) {
+			if (options.shouldShowImageForEmptyUri())
+			{
 				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
-			} else {
+			}
+			else
+			{
 				imageAware.setImageDrawable(null);
 			}
 			listener.onLoadingComplete(uri, imageAware.getWrappedView(), null);
@@ -235,37 +362,54 @@ public class ImageLoader {
 		listener.onLoadingStarted(uri, imageAware.getWrappedView());
 
 		Bitmap bmp = configuration.memoryCache.get(memoryCacheKey);
-		if (bmp != null && !bmp.isRecycled()) {
+		if (bmp != null && !bmp.isRecycled())
+		{
 			L.d(LOG_LOAD_IMAGE_FROM_MEMORY_CACHE, memoryCacheKey);
 
-			if (options.shouldPostProcess()) {
-				ImageLoadingInfo imageLoadingInfo = new ImageLoadingInfo(uri, imageAware, targetSize, memoryCacheKey,
-						options, listener, progressListener, engine.getLockForUri(uri));
-				ProcessAndDisplayImageTask displayTask = new ProcessAndDisplayImageTask(engine, bmp, imageLoadingInfo,
-						defineHandler(options));
-				if (options.isSyncLoading()) {
+			if (options.shouldPostProcess())
+			{
+				ImageLoadingInfo imageLoadingInfo = new ImageLoadingInfo(uri, imageAware,
+						targetSize, memoryCacheKey, options, listener, progressListener, engine.getLockForUri(uri));
+
+				ProcessAndDisplayImageTask displayTask = new ProcessAndDisplayImageTask(engine, bmp, imageLoadingInfo, defineHandler(options));
+				if (options.isSyncLoading())
+				{
 					displayTask.run();
-				} else {
+				}
+				else
+				{
 					engine.submit(displayTask);
 				}
-			} else {
+			}
+			else
+			{
 				options.getDisplayer().display(bmp, imageAware, LoadedFrom.MEMORY_CACHE);
 				listener.onLoadingComplete(uri, imageAware.getWrappedView(), bmp);
 			}
-		} else {
-			if (options.shouldShowImageOnLoading()) {
+		}
+		else
+		{
+			if (options.shouldShowImageOnLoading())
+			{
 				imageAware.setImageDrawable(options.getImageOnLoading(configuration.resources));
-			} else if (options.isResetViewBeforeLoading()) {
+			}
+			else if (options.isResetViewBeforeLoading())
+			{
 				imageAware.setImageDrawable(null);
 			}
 
 			ImageLoadingInfo imageLoadingInfo = new ImageLoadingInfo(uri, imageAware, targetSize, memoryCacheKey,
 					options, listener, progressListener, engine.getLockForUri(uri));
+
 			LoadAndDisplayImageTask displayTask = new LoadAndDisplayImageTask(engine, imageLoadingInfo,
 					defineHandler(options));
-			if (options.isSyncLoading()) {
+
+			if (options.isSyncLoading())
+			{
 				displayTask.run();
-			} else {
+			}
+			else
+			{
 				engine.submit(displayTask);
 			}
 		}

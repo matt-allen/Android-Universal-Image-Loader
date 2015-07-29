@@ -5,8 +5,8 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.nostra13.universalimageloader"
-        minSdkVersion 5
+        applicationId "com.cube.imageloader.sample"
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 40
         versionName "1.9.5"
