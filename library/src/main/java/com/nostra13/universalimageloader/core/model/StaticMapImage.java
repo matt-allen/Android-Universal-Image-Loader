@@ -38,7 +38,6 @@ public class StaticMapImage implements ImageServiceOptions
 		this.height = height;
 		this.zoom = zoom;
 		this.markers = markers;
-		addMarker(new StaticMapImage.Marker("Gr", 50.724224, -1.906538, StaticMapImage.GREEN));
 	}
 
 	public StaticMapImage(double latitude, double longitude)
@@ -82,7 +81,6 @@ public class StaticMapImage implements ImageServiceOptions
 
 	public static class Marker implements ImageServiceOptions
 	{
-		private static final String URL_LABEL = "%7Clabel:";
 		private double latitude, longitude;
 		private String colour, label;
 
@@ -102,11 +100,12 @@ public class StaticMapImage implements ImageServiceOptions
 		@Override
 		public String createUrl()
 		{
-			String base = "&markers=color:" + colour + "%7C" + String.valueOf(latitude) + "," + String.valueOf(longitude);
+			String base = "&markers=color:" + colour;
 			if (!TextUtils.isEmpty(label))
 			{
-				base += URL_LABEL + label;
+				base += "%7Clabel:" + label.substring(0, 1);
 			}
+			base += "%7C" + String.valueOf(latitude) + "," + String.valueOf(longitude);
 			return base;
 		}
 
