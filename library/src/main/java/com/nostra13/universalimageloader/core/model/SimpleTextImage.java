@@ -33,7 +33,7 @@ public class SimpleTextImage implements ImageServiceOptions
 	private int typeFace;
 	private int style;
 
-	public SimpleTextImage(String text, boolean useInitials, int typeFace, int style)
+	public SimpleTextImage(String text, boolean useInitials, @Typeface int typeFace, @Style int style)
 	{
 		this.text = text;
 		this.useInitials = useInitials;
@@ -56,11 +56,13 @@ public class SimpleTextImage implements ImageServiceOptions
 		return useInitials;
 	}
 
+	@Typeface
 	public int getTypeFace()
 	{
 		return typeFace;
 	}
 
+	@Style
 	public int getStyle()
 	{
 		return style;
