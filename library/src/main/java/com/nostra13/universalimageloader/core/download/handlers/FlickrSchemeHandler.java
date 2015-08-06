@@ -39,11 +39,6 @@ public class FlickrSchemeHandler extends SchemeHandler
 			System.err.println("The API key for Flickr must first be set by calling FlickrServiceHelper.setApiKey(String)");
 			return null;
 		}
-		else if (TextUtils.isEmpty(FlickrServiceHelper.getGroupId()))
-		{
-			System.err.println("The Group Id for Flickr must be set by calling FlickrServiceHelper.setGroupId(String)");
-			return null;
-		}
 		else
 		{
 			try
@@ -95,8 +90,10 @@ public class FlickrSchemeHandler extends SchemeHandler
 
 	private String createUrl(double latitude, double longitude)
 	{
-		return String.format("https://api.flickr.com/services/rest/?method=%s&api_key=%s&group_id=%s&lat=%s&lon=%s&format=%s&nojsoncallback=1",
-				METHOD, FlickrServiceHelper.getApiKey(), FlickrServiceHelper.getGroupId(), String.valueOf(latitude), String.valueOf(longitude), FORMAT);
+		String groupId = FlickrServiceHelper.getGroupId();
+		return String.format("https://api.flickr.com/services/rest/?method=%s&api_key=%s%s&lat=%s&lon=%s&format=%s&nojsoncallback=1",
+				METHOD, FlickrServiceHelper.getApiKey(), (TextUtils.isEmpty(groupId)?"":String.format("&group_id=%s",groupId)),
+				String.valueOf(latitude), String.valueOf(longitude), FORMAT);
 	}
 
 	public class Photo
