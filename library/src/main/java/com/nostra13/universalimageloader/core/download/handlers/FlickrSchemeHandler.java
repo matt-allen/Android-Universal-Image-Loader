@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * @author Matt Allen
  * @project UniversalImageLoader
  */
-public class FlickrSchemeDownloader extends SchemeHandler
+public class FlickrSchemeHandler extends SchemeHandler
 {
 	private static final String FORMAT = "json";
 	private static final String METHOD = "flickr.photos.search";
