@@ -1,6 +1,7 @@
 package com.nostra13.universalimageloader.core.model;
 
 import android.support.annotation.IntDef;
+import android.text.TextUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -32,18 +33,30 @@ public class SimpleTextImage implements ImageServiceOptions
 	private boolean useInitials;
 	private int typeFace;
 	private int style;
+	private int colour; // -1 for random
 
-	public SimpleTextImage(String text, boolean useInitials, @Typeface int typeFace, @Style int style)
+	public SimpleTextImage(String text, int colour, boolean useInitials, @Typeface int typeFace, @Style int style)
 	{
 		this.text = text;
 		this.useInitials = useInitials;
 		this.typeFace = typeFace;
 		this.style = style;
+		this.colour = colour;
 	}
 
 	public SimpleTextImage(String text, boolean useInitials)
 	{
-		this(text, useInitials, TYPEFACE_NORMAL, STYLE_NORMAL);
+		this(text, -1, useInitials, TYPEFACE_THIN, STYLE_NORMAL);
+	}
+
+	public SimpleTextImage(String text)
+	{
+		this(text, (!TextUtils.isEmpty(text) && text.length() > 1));
+	}
+
+	public SimpleTextImage()
+	{
+		this(null);
 	}
 
 	public String getText()
@@ -68,15 +81,30 @@ public class SimpleTextImage implements ImageServiceOptions
 		return style;
 	}
 
+	public int getColour()
+	{
+		return colour;
+	}
+
 	@Override
 	public String createUrl()
 	{
-		return null;
+		return String.format("text://%s/%s/%s/%s/%s", text, String.valueOf(colour),
+				(useInitials ? "1" : "0"), String.valueOf(typeFace), String.valueOf(style));
 	}
 
 	@Override
 	public void fromUrl(String url)
 	{
-
+		String[] string = url.split("/");
+		text = string[2];
+		colour = Integer.parseInt(string[3]);
+		String initials = string[4];
+		if (initials.equalsIgnoreCase("1"))
+		{
+			useInitials = true;
+		}
+		typeFace = Integer.parseInt(string[5]);
+		style = Integer.parseInt(string[6]);
 	}
 }
