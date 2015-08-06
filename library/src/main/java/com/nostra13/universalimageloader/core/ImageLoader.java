@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011-2014 Sergey Tarasevich
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.memory.MemoryCache;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -31,14 +32,13 @@ import com.nostra13.universalimageloader.core.assist.ViewScaleType;
 import com.nostra13.universalimageloader.core.download.ExtensibleImageDownloader;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
-import com.nostra13.universalimageloader.core.helper.FlickrServiceHelper;
-import com.nostra13.universalimageloader.core.helper.GoogleMapsServiceHelper;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.imageaware.NonViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.model.ImageServiceOptions;
 import com.nostra13.universalimageloader.utils.ImageSizeUtils;
 import com.nostra13.universalimageloader.utils.L;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
@@ -50,7 +50,8 @@ import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  * @since 1.0.0
  */
-public class ImageLoader {
+public class ImageLoader
+{
 
 	public static final String TAG = ImageLoader.class.getSimpleName();
 
@@ -86,6 +87,26 @@ public class ImageLoader {
 		return instance;
 	}
 
+	/**
+	 * A shorted call to get an instance of the loading library.
+	 * The original must remain for backwards compatibility
+	 * @return Instance of the image loader
+	 */
+	public static ImageLoader get()
+	{
+		if (instance == null)
+		{
+			synchronized (ImageLoader.class)
+			{
+				if (instance == null)
+				{
+					instance = new ImageLoader();
+				}
+			}
+		}
+		return instance;
+	}
+
 	protected ImageLoader()
 	{
 		super();
@@ -101,14 +122,18 @@ public class ImageLoader {
 	 */
 	public synchronized void init(ImageLoaderConfiguration configuration)
 	{
-		if (configuration == null) {
+		if (configuration == null)
+		{
 			throw new IllegalArgumentException(ERROR_INIT_CONFIG_WITH_NULL);
 		}
-		if (this.configuration == null) {
+		if (this.configuration == null)
+		{
 			L.d(LOG_INIT_CONFIG);
 			engine = new ImageLoaderEngine(configuration);
 			this.configuration = configuration;
-		} else {
+		}
+		else
+		{
 			L.w(WARNING_RE_INIT_CONFIG);
 		}
 	}
@@ -117,7 +142,8 @@ public class ImageLoader {
 	 * Returns <b>true</b> - if ImageLoader {@linkplain #init(ImageLoaderConfiguration) is initialized with
 	 * configuration}; <b>false</b> - otherwise
 	 */
-	public boolean isInited() {
+	public boolean isInited()
+	{
 		return configuration != null;
 	}
 
@@ -139,7 +165,7 @@ public class ImageLoader {
 	{
 		if (configuration.downloader instanceof ExtensibleImageDownloader)
 		{
-			((ExtensibleImageDownloader)configuration.downloader).registerHandler(scheme, handler);
+			((ExtensibleImageDownloader) configuration.downloader).registerHandler(scheme, handler);
 		}
 	}
 
@@ -151,82 +177,8 @@ public class ImageLoader {
 	{
 		if (configuration.downloader instanceof ExtensibleImageDownloader)
 		{
-			((ExtensibleImageDownloader)configuration.downloader).removeHandler(scheme);
+			((ExtensibleImageDownloader) configuration.downloader).removeHandler(scheme);
 		}
-	}
-
-	public void displayFlickrImage(double lat, double lng, ImageAware view)
-	{
-		displayFlickrImage(lat, lng, view, null, null);
-	}
-
-	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options)
-	{
-		displayFlickrImage(lat, lng, view, options, null);
-	}
-
-	public void displayFlickrImage(double lat, double lng, ImageAware view, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
-		displayImage(url, view, options, listener);
-	}
-
-	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener)
-	{
-		loadFlickrImage(lat, lng, null, listener, null);
-	}
-
-	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		loadFlickrImage(lat, lng, options, listener, null);
-	}
-
-	public void loadFlickrImage(double lat, double lng, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
-	{
-		loadFlickrImage(lat, lng, null, listener, progressListener);
-	}
-
-	public void loadFlickrImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
-	{
-		String url = FlickrServiceHelper.getUriForLocation(lat, lng);
-		loadImage(url, null, options, listener, progressListener);
-	}
-
-	public void displayStaticMapImage(double lat, double lng, ImageAware view)
-	{
-		displayStaticMapImage(lat, lng, view, null, null);
-	}
-
-	public void displayStaticMapImage(double lat, double lng, ImageAware view, DisplayImageOptions options)
-	{
-		displayStaticMapImage(lat, lng, view, options, null);
-	}
-
-	public void displayStaticMapImage(double lat, double lng, ImageAware view, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		String url = GoogleMapsServiceHelper.getUriForLocation(lat, lng);
-		displayImage(url, view, options, listener);
-	}
-
-	public void loadStaticMapImage(double lat, double lng, ImageLoadingListener listener)
-	{
-		loadStaticMapImage(lat, lng, null, listener, null);
-	}
-
-	public void loadStaticMapImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		loadStaticMapImage(lat, lng, options, listener, null);
-	}
-
-	public void loadStaticMapImage(double lat, double lng, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
-	{
-		loadStaticMapImage(lat, lng, null, listener, progressListener);
-	}
-
-	public void loadStaticMapImage(double lat, double lng, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
-	{
-		String url = GoogleMapsServiceHelper.getUriForLocation(lat, lng);
-		loadImage(url, null, options, listener, progressListener);
 	}
 
 	/**
@@ -241,7 +193,8 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageAware</b> is null
 	 */
-	public void displayImage(String uri, ImageAware imageAware) {
+	public void displayImage(String uri, ImageAware imageAware)
+	{
 		displayImage(uri, imageAware, null, null, null);
 	}
 
@@ -259,7 +212,8 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageAware</b> is null
 	 */
-	public void displayImage(String uri, ImageAware imageAware, ImageLoadingListener listener) {
+	public void displayImage(String uri, ImageAware imageAware, ImageLoadingListener listener)
+	{
 		displayImage(uri, imageAware, null, listener, null);
 	}
 
@@ -277,7 +231,8 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageAware</b> is null
 	 */
-	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options) {
+	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options)
+	{
 		displayImage(uri, imageAware, options, null, null);
 	}
 
@@ -298,7 +253,8 @@ public class ImageLoader {
 	 * @throws IllegalArgumentException if passed <b>imageAware</b> is null
 	 */
 	public void displayImage(String uri, ImageAware imageAware, DisplayImageOptions options,
-			ImageLoadingListener listener) {
+							 ImageLoadingListener listener)
+	{
 		displayImage(uri, imageAware, options, listener, null);
 	}
 
@@ -426,7 +382,8 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageView</b> is null
 	 */
-	public void displayImage(String uri, ImageView imageView) {
+	public void displayImage(String uri, ImageView imageView)
+	{
 		displayImage(uri, new ImageViewAware(imageView), null, null, null);
 	}
 
@@ -443,7 +400,8 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageView</b> is null
 	 */
-	public void displayImage(String uri, ImageView imageView, DisplayImageOptions options) {
+	public void displayImage(String uri, ImageView imageView, DisplayImageOptions options)
+	{
 		displayImage(uri, new ImageViewAware(imageView), options, null, null);
 	}
 
@@ -460,7 +418,8 @@ public class ImageLoader {
 	 * @throws IllegalStateException    if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 * @throws IllegalArgumentException if passed <b>imageView</b> is null
 	 */
-	public void displayImage(String uri, ImageView imageView, ImageLoadingListener listener) {
+	public void displayImage(String uri, ImageView imageView, ImageLoadingListener listener)
+	{
 		displayImage(uri, new ImageViewAware(imageView), null, listener, null);
 	}
 
@@ -480,7 +439,8 @@ public class ImageLoader {
 	 * @throws IllegalArgumentException if passed <b>imageView</b> is null
 	 */
 	public void displayImage(String uri, ImageView imageView, DisplayImageOptions options,
-			ImageLoadingListener listener) {
+							 ImageLoadingListener listener)
+	{
 		displayImage(uri, imageView, options, listener, null);
 	}
 
@@ -505,7 +465,8 @@ public class ImageLoader {
 	 * @throws IllegalArgumentException if passed <b>imageView</b> is null
 	 */
 	public void displayImage(String uri, ImageView imageView, DisplayImageOptions options,
-			ImageLoadingListener listener, ImageLoadingProgressListener progressListener) {
+							 ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
 		displayImage(uri, new ImageViewAware(imageView), options, listener, progressListener);
 	}
 
@@ -520,7 +481,8 @@ public class ImageLoader {
 	 *                 thread if this method is called on UI thread.
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void loadImage(String uri, ImageLoadingListener listener) {
+	public void loadImage(String uri, ImageLoadingListener listener)
+	{
 		loadImage(uri, null, null, listener, null);
 	}
 
@@ -540,7 +502,8 @@ public class ImageLoader {
 	 *                        events on UI thread if this method is called on UI thread.
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void loadImage(String uri, ImageSize targetImageSize, ImageLoadingListener listener) {
+	public void loadImage(String uri, ImageSize targetImageSize, ImageLoadingListener listener)
+	{
 		loadImage(uri, targetImageSize, null, listener, null);
 	}
 
@@ -559,7 +522,8 @@ public class ImageLoader {
 	 *                 thread if this method is called on UI thread.
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void loadImage(String uri, DisplayImageOptions options, ImageLoadingListener listener) {
+	public void loadImage(String uri, DisplayImageOptions options, ImageLoadingListener listener)
+	{
 		loadImage(uri, null, options, listener, null);
 	}
 
@@ -584,7 +548,8 @@ public class ImageLoader {
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
 	public void loadImage(String uri, ImageSize targetImageSize, DisplayImageOptions options,
-			ImageLoadingListener listener) {
+						  ImageLoadingListener listener)
+	{
 		loadImage(uri, targetImageSize, options, listener, null);
 	}
 
@@ -614,12 +579,15 @@ public class ImageLoader {
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
 	public void loadImage(String uri, ImageSize targetImageSize, DisplayImageOptions options,
-			ImageLoadingListener listener, ImageLoadingProgressListener progressListener) {
+						  ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
 		checkConfiguration();
-		if (targetImageSize == null) {
+		if (targetImageSize == null)
+		{
 			targetImageSize = configuration.getMaxImageSize();
 		}
-		if (options == null) {
+		if (options == null)
+		{
 			options = configuration.defaultDisplayImageOptions;
 		}
 
@@ -638,7 +606,8 @@ public class ImageLoader {
 	 * @return Result image Bitmap. Can be <b>null</b> if image loading/decoding was failed or cancelled.
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public Bitmap loadImageSync(String uri) {
+	public Bitmap loadImageSync(String uri)
+	{
 		return loadImageSync(uri, null, null);
 	}
 
@@ -654,7 +623,8 @@ public class ImageLoader {
 	 * @return Result image Bitmap. Can be <b>null</b> if image loading/decoding was failed or cancelled.
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public Bitmap loadImageSync(String uri, DisplayImageOptions options) {
+	public Bitmap loadImageSync(String uri, DisplayImageOptions options)
+	{
 		return loadImageSync(uri, null, options);
 	}
 
@@ -672,7 +642,8 @@ public class ImageLoader {
 	 * @return Result image Bitmap. Can be <b>null</b> if image loading/decoding was failed or cancelled.
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public Bitmap loadImageSync(String uri, ImageSize targetImageSize) {
+	public Bitmap loadImageSync(String uri, ImageSize targetImageSize)
+	{
 		return loadImageSync(uri, targetImageSize, null);
 	}
 
@@ -691,8 +662,10 @@ public class ImageLoader {
 	 * @return Result image Bitmap. Can be <b>null</b> if image loading/decoding was failed or cancelled.
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public Bitmap loadImageSync(String uri, ImageSize targetImageSize, DisplayImageOptions options) {
-		if (options == null) {
+	public Bitmap loadImageSync(String uri, ImageSize targetImageSize, DisplayImageOptions options)
+	{
+		if (options == null)
+		{
 			options = configuration.defaultDisplayImageOptions;
 		}
 		options = new DisplayImageOptions.Builder().cloneFrom(options).syncLoading(true).build();
@@ -707,14 +680,17 @@ public class ImageLoader {
 	 *
 	 * @throws IllegalStateException if configuration wasn't initialized
 	 */
-	private void checkConfiguration() {
-		if (configuration == null) {
+	private void checkConfiguration()
+	{
+		if (configuration == null)
+		{
 			throw new IllegalStateException(ERROR_NOT_INIT);
 		}
 	}
 
 	/** Sets a default loading listener for all display and loading tasks. */
-	public void setDefaultLoadingListener(ImageLoadingListener listener) {
+	public void setDefaultLoadingListener(ImageLoadingListener listener)
+	{
 		defaultListener = listener == null ? new SimpleImageLoadingListener() : listener;
 	}
 
@@ -723,7 +699,8 @@ public class ImageLoader {
 	 *
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public MemoryCache getMemoryCache() {
+	public MemoryCache getMemoryCache()
+	{
 		checkConfiguration();
 		return configuration.memoryCache;
 	}
@@ -733,7 +710,8 @@ public class ImageLoader {
 	 *
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void clearMemoryCache() {
+	public void clearMemoryCache()
+	{
 		checkConfiguration();
 		configuration.memoryCache.clear();
 	}
@@ -745,7 +723,8 @@ public class ImageLoader {
 	 * @deprecated Use {@link #getDiskCache()} instead
 	 */
 	@Deprecated
-	public DiskCache getDiscCache() {
+	public DiskCache getDiscCache()
+	{
 		return getDiskCache();
 	}
 
@@ -754,7 +733,8 @@ public class ImageLoader {
 	 *
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public DiskCache getDiskCache() {
+	public DiskCache getDiskCache()
+	{
 		checkConfiguration();
 		return configuration.diskCache;
 	}
@@ -766,7 +746,8 @@ public class ImageLoader {
 	 * @deprecated Use {@link #clearDiskCache()} instead
 	 */
 	@Deprecated
-	public void clearDiscCache() {
+	public void clearDiscCache()
+	{
 		clearDiskCache();
 	}
 
@@ -775,7 +756,8 @@ public class ImageLoader {
 	 *
 	 * @throws IllegalStateException if {@link #init(ImageLoaderConfiguration)} method wasn't called before
 	 */
-	public void clearDiskCache() {
+	public void clearDiskCache()
+	{
 		checkConfiguration();
 		configuration.diskCache.clear();
 	}
@@ -784,7 +766,8 @@ public class ImageLoader {
 	 * Returns URI of image which is loading at this moment into passed
 	 * {@link com.nostra13.universalimageloader.core.imageaware.ImageAware ImageAware}
 	 */
-	public String getLoadingUriForView(ImageAware imageAware) {
+	public String getLoadingUriForView(ImageAware imageAware)
+	{
 		return engine.getLoadingUriForView(imageAware);
 	}
 
@@ -792,7 +775,8 @@ public class ImageLoader {
 	 * Returns URI of image which is loading at this moment into passed
 	 * {@link android.widget.ImageView ImageView}
 	 */
-	public String getLoadingUriForView(ImageView imageView) {
+	public String getLoadingUriForView(ImageView imageView)
+	{
 		return engine.getLoadingUriForView(new ImageViewAware(imageView));
 	}
 
@@ -803,7 +787,8 @@ public class ImageLoader {
 	 * @param imageAware {@link com.nostra13.universalimageloader.core.imageaware.ImageAware ImageAware} for
 	 *                   which display task will be cancelled
 	 */
-	public void cancelDisplayTask(ImageAware imageAware) {
+	public void cancelDisplayTask(ImageAware imageAware)
+	{
 		engine.cancelDisplayTaskFor(imageAware);
 	}
 
@@ -813,7 +798,8 @@ public class ImageLoader {
 	 *
 	 * @param imageView {@link android.widget.ImageView ImageView} for which display task will be cancelled
 	 */
-	public void cancelDisplayTask(ImageView imageView) {
+	public void cancelDisplayTask(ImageView imageView)
+	{
 		engine.cancelDisplayTaskFor(new ImageViewAware(imageView));
 	}
 
@@ -827,7 +813,8 @@ public class ImageLoader {
 	 * @param denyNetworkDownloads pass <b>true</b> - to deny engine to download images from the network; <b>false</b> -
 	 *                             to allow engine to download images from network.
 	 */
-	public void denyNetworkDownloads(boolean denyNetworkDownloads) {
+	public void denyNetworkDownloads(boolean denyNetworkDownloads)
+	{
 		engine.denyNetworkDownloads(denyNetworkDownloads);
 	}
 
@@ -838,7 +825,8 @@ public class ImageLoader {
 	 * @param handleSlowNetwork pass <b>true</b> - to use {@link FlushedInputStream} for network downloads; <b>false</b>
 	 *                          - otherwise.
 	 */
-	public void handleSlowNetwork(boolean handleSlowNetwork) {
+	public void handleSlowNetwork(boolean handleSlowNetwork)
+	{
 		engine.handleSlowNetwork(handleSlowNetwork);
 	}
 
@@ -847,12 +835,14 @@ public class ImageLoader {
 	 * <br />
 	 * Already running tasks are not paused.
 	 */
-	public void pause() {
+	public void pause()
+	{
 		engine.pause();
 	}
 
 	/** Resumes waiting "load&display" tasks */
-	public void resume() {
+	public void resume()
+	{
 		engine.resume();
 	}
 
@@ -863,7 +853,8 @@ public class ImageLoader {
 	 * custom task executors} if you set them.<br />
 	 * ImageLoader still can be used after calling this method.
 	 */
-	public void stop() {
+	public void stop()
+	{
 		engine.stop();
 	}
 
@@ -872,7 +863,8 @@ public class ImageLoader {
 	 * You can {@linkplain #init(ImageLoaderConfiguration) init} ImageLoader with new configuration after calling this
 	 * method.
 	 */
-	public void destroy() {
+	public void destroy()
+	{
 		if (configuration != null) L.d(LOG_DESTROY);
 		stop();
 		configuration.diskCache.close();
@@ -880,11 +872,15 @@ public class ImageLoader {
 		configuration = null;
 	}
 
-	private static Handler defineHandler(DisplayImageOptions options) {
+	private static Handler defineHandler(DisplayImageOptions options)
+	{
 		Handler handler = options.getHandler();
-		if (options.isSyncLoading()) {
+		if (options.isSyncLoading())
+		{
 			handler = null;
-		} else if (handler == null && Looper.myLooper() == Looper.getMainLooper()) {
+		}
+		else if (handler == null && Looper.myLooper() == Looper.getMainLooper())
+		{
 			handler = new Handler();
 		}
 		return handler;
@@ -896,16 +892,19 @@ public class ImageLoader {
 	 * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
 	 * @since 1.9.0
 	 */
-	private static class SyncImageLoadingListener extends SimpleImageLoadingListener {
+	private static class SyncImageLoadingListener extends SimpleImageLoadingListener
+	{
 
 		private Bitmap loadedImage;
 
 		@Override
-		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
+		{
 			this.loadedImage = loadedImage;
 		}
 
-		public Bitmap getLoadedBitmap() {
+		public Bitmap getLoadedBitmap()
+		{
 			return loadedImage;
 		}
 	}
