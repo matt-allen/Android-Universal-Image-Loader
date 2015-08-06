@@ -181,6 +181,27 @@ public class ImageLoader
 		}
 	}
 
+	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware, ImageLoadingListener listener,
+	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
+	{
+		displayImage(urlCreator.createUrl(), imageAware, options, listener, progressListener);
+	}
+
+	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware, ImageLoadingListener listener, DisplayImageOptions options)
+	{
+		displayImage(urlCreator.createUrl(), imageAware, options, listener, null);
+	}
+
+	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware, DisplayImageOptions options)
+	{
+		displayImage(urlCreator.createUrl(), imageAware, options, null, null);
+	}
+
+	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware)
+	{
+		displayImage(urlCreator.createUrl(), imageAware, null, null, null);
+	}
+
 	/**
 	 * Adds display image task to execution pool. Image will be set to ImageAware when it's turn. <br/>
 	 * Default {@linkplain DisplayImageOptions display image options} from {@linkplain ImageLoaderConfiguration
