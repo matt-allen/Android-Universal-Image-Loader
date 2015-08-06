@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandle
 import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.HttpSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
+import com.nostra13.universalimageloader.core.download.handlers.TextSchemeHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +64,7 @@ public class ExtensibleImageDownloader implements ImageDownloader
 			mHandlers.put("http", http);
 			mHandlers.put("https", http);
 			mHandlers.put("flickr", new FlickrSchemeHandler());
+			mHandlers.put("text", new TextSchemeHandler());
 		}
 	}
 
