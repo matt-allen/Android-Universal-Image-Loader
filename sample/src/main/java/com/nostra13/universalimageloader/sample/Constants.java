@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.sample;
 
+import com.nostra13.universalimageloader.core.model.FlickrImage;
 import com.nostra13.universalimageloader.core.model.GravatarImage;
 import com.nostra13.universalimageloader.core.model.StaticMapImage;
 
@@ -29,8 +30,11 @@ public final class Constants {
 			new GravatarImage("tim@3sidedcube.com").createUrl(),
 			new GravatarImage("callum@3sidedcube.com").createUrl(),
 			new GravatarImage("steve@3sidedcube.com").createUrl(),
+			new GravatarImage("simon@3sidedcube.com").createUrl(),
 			new StaticMapImage.Builder().latitude(40.784051).longitude(-73.930435).defaultMarker(true).build().createUrl(),
 			new StaticMapImage.Builder().latitude(50.724224).longitude(-1.906538).defaultMarker(true).build().createUrl(),
+			new FlickrImage(40.784051, -73.930435).createUrl(),
+			new FlickrImage(50.724224, -1.906538).createUrl(),
 			"https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
 			"https://lh4.googleusercontent.com/--dq8niRp7W4/URquVgmXvgI/AAAAAAAAAbs/-gnuLQfNnBA/s1024/A%252520Song%252520of%252520Ice%252520and%252520Fire.jpg",
 			"https://lh5.googleusercontent.com/-7qZeDtRKFKc/URquWZT1gOI/AAAAAAAAAbs/hqWgteyNXsg/s1024/Another%252520Rockaway%252520Sunset.jpg",
