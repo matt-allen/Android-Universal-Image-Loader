@@ -2,7 +2,6 @@ package com.nostra13.universalimageloader.core.model;
 
 import android.text.TextUtils;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +112,81 @@ public class StaticMapImage implements ImageServiceOptions
 		public void fromUrl(String url)
 		{
 			// Not needed
+		}
+	}
+
+	public static class Builder
+	{
+		private double latitude, longitude;
+		private int width, height, zoom;
+		private List<Marker> markers;
+		private boolean defaultMarker = false;
+
+		public Builder()
+		{
+			latitude = 0d;
+			longitude = 0d;
+			width = 800;
+			height = 600;
+			zoom = 14;
+			markers = new ArrayList<>();
+		}
+
+		public Builder latitude(double latitude)
+		{
+			this.latitude = latitude;
+			return this;
+		}
+
+		public Builder longitude(double longitude)
+		{
+			this.longitude = longitude;
+			return this;
+		}
+
+		public Builder defaultMarker(boolean defaultMarker)
+		{
+			this.defaultMarker = defaultMarker;
+			return this;
+		}
+
+		public Builder addMarker(Marker marker)
+		{
+			markers.add(marker);
+			return this;
+		}
+
+		public Builder markers(List<Marker> markers)
+		{
+			this.markers = markers;
+			return this;
+		}
+
+		public Builder zoom(int zoom)
+		{
+			this.zoom = zoom;
+			return this;
+		}
+
+		public Builder width(int width)
+		{
+			this.width = width;
+			return this;
+		}
+
+		public Builder height(int height)
+		{
+			this.height = height;
+			return this;
+		}
+
+		public StaticMapImage build()
+		{
+			if (defaultMarker)
+			{
+				markers.add(new Marker(latitude, longitude, RED));
+			}
+			return new StaticMapImage(latitude, longitude, width, height, zoom, markers);
 		}
 	}
 }
