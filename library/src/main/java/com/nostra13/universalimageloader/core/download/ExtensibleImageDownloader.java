@@ -5,10 +5,9 @@ import android.content.Context;
 import com.nostra13.universalimageloader.core.download.handlers.ContentSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandler;
-import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemeDownloader;
+import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.HttpSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
-import com.nostra13.universalimageloader.core.download.handlers.StaticMapSchemeHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,8 +62,7 @@ public class ExtensibleImageDownloader implements ImageDownloader
 			mHandlers.put("content", new ContentSchemeHandler());
 			mHandlers.put("http", http);
 			mHandlers.put("https", http);
-			mHandlers.put("flickr", new FlickrSchemeDownloader());
-			mHandlers.put("maps", new StaticMapSchemeHandler());
+			mHandlers.put("flickr", new FlickrSchemeHandler());
 		}
 	}
 
