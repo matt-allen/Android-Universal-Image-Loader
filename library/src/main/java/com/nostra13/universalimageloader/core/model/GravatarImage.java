@@ -37,6 +37,11 @@ public class GravatarImage implements ImageServiceOptions
 		this.size = size;
 	}
 
+	public GravatarImage(String email)
+	{
+		this(email, null, SIZE_LARGE);
+	}
+
 	@Size
 	public int getSize()
 	{
