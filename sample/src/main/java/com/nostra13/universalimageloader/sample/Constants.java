@@ -15,6 +15,11 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.sample;
 
+import com.nostra13.universalimageloader.core.model.GravatarImage;
+import com.nostra13.universalimageloader.core.model.StaticMapImage;
+
+import java.util.ArrayList;
+
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
@@ -22,6 +27,12 @@ public final class Constants {
 
 	public static final String[] IMAGES = new String[] {
 			// Heavy images
+			new GravatarImage("matt.allen@3sidedcube.com", null, GravatarImage.SIZE_LARGE).createUrl(),
+			new GravatarImage("tim@3sidedcube.com", null, GravatarImage.SIZE_LARGE).createUrl(),
+			new GravatarImage("callum@3sidedcube.com", null, GravatarImage.SIZE_LARGE).createUrl(),
+			new StaticMapImage(50.724224, -1.906538, 2048, 2048, 18, null).createUrl(),
+			new StaticMapImage(53.1, -2.4).createUrl(),
+			new StaticMapImage(54.1, -2.4).createUrl(),
 			"https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
 			"https://lh4.googleusercontent.com/--dq8niRp7W4/URquVgmXvgI/AAAAAAAAAbs/-gnuLQfNnBA/s1024/A%252520Song%252520of%252520Ice%252520and%252520Fire.jpg",
 			"https://lh5.googleusercontent.com/-7qZeDtRKFKc/URquWZT1gOI/AAAAAAAAAbs/hqWgteyNXsg/s1024/Another%252520Rockaway%252520Sunset.jpg",
