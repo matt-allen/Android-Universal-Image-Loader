@@ -1,6 +1,5 @@
 package com.nostra13.universalimageloader.core.model;
 
-import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 
@@ -31,27 +30,27 @@ public class SimpleTextImage implements ImageServiceOptions
 	public static final int STYLE_BOLD = 1;
 	public static final int STYLE_NORMAL = 2;
 
-//	@IntDef({COLOUR_RED, COLOUR_PINK, COLOUR_PURPLE, COLOUR_DEEP_PURPLE,
-//			COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE, COLOUR_RANDOM})
-//	@Retention(RetentionPolicy.SOURCE)
-//	public @interface Colour{}
-	public static final int COLOUR_RED = Color.parseColor("#F44336");
-	public static final int COLOUR_PINK = Color.parseColor("#E91E63");
-	public static final int COLOUR_PURPLE = Color.parseColor("#9C27B0");
-	public static final int COLOUR_DEEP_PURPLE = Color.parseColor("#673AB7");
-	public static final int COLOUR_INDIGO = Color.parseColor("#3F51B5");
-	public static final int COLOUR_BLUE = Color.parseColor("#2196F3");
-	public static final int COLOUR_TEAL = Color.parseColor("#009688");
-	public static final int COLOUR_DEEP_ORANGE = Color.parseColor("#FF5722");
+	@IntDef({COLOUR_RED, COLOUR_PINK, COLOUR_PURPLE, COLOUR_DEEP_PURPLE,
+			COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE, COLOUR_RANDOM})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface Colour{}
+	public static final int COLOUR_RED = -769226;
+	public static final int COLOUR_PINK = -1499549;
+	public static final int COLOUR_PURPLE = -6543440;
+	public static final int COLOUR_DEEP_PURPLE = -10011977;
+	public static final int COLOUR_INDIGO = -12627531;
+	public static final int COLOUR_BLUE = -14575885;
+	public static final int COLOUR_TEAL = -16738680;
+	public static final int COLOUR_DEEP_ORANGE = -43230;
 	public static final int COLOUR_RANDOM = -1;
 
 	private String text;
 	private boolean useInitials;
 	private int typeFace;
 	private int style;
-	private int colour; // -1 for random
+	private int colour;
 
-	public SimpleTextImage(String text, int colour, boolean useInitials, @Typeface int typeFace, @Style int style)
+	public SimpleTextImage(String text, @Colour int colour, boolean useInitials, @Typeface int typeFace, @Style int style)
 	{
 		this.text = text;
 		this.useInitials = useInitials;
@@ -97,6 +96,7 @@ public class SimpleTextImage implements ImageServiceOptions
 		return style;
 	}
 
+	@Colour
 	public int getColour()
 	{
 		return colour;

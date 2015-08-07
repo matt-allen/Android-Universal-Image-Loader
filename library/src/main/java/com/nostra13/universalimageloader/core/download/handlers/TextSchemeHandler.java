@@ -17,7 +17,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 /**
- * // TODO Add class description
+ * Renderer for text on a coloured background. Nice and simple image to mimic the way
+ * that Gmail shows initials of people in a list without an image
  *
  * @author Matt Allen
  * @project UniversalImageLoader
@@ -48,7 +49,7 @@ public class TextSchemeHandler extends SchemeHandler
 				break;
 		}
 		Drawable bgDrawable = textView.getBackground();
-		Bitmap bitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(384, 384, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		bgDrawable.draw(canvas);
 		textView.draw(canvas);
@@ -65,10 +66,10 @@ public class TextSchemeHandler extends SchemeHandler
 		params.gravity = Gravity.CENTER;
 		textView.setLayoutParams(params);
 		textView.setGravity(Gravity.CENTER);
-		textView.setPadding(16, 16, 16, 16);
-		textView.layout(0, 0, 256, 256);
+		textView.setPadding(16, 46, 16, 16);
+		textView.layout(0, 0, 384, 384);
 		textView.requestLayout();
-		textView.setTextSize(54);
+		textView.setTextSize(68);
 		textView.setTextColor(Color.WHITE);
 		return textView;
 	}
