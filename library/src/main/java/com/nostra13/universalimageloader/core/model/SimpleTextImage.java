@@ -1,5 +1,6 @@
 package com.nostra13.universalimageloader.core.model;
 
+import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 
@@ -89,7 +90,7 @@ public class SimpleTextImage implements ImageServiceOptions
 	@Override
 	public String createUrl()
 	{
-		return String.format("text://%s/%s/%s/%s/%s", text, String.valueOf(colour),
+		return String.format("text://%s/%s/%s/%s/%s", text, String.valueOf(Color.BLUE),
 				(useInitials ? "1" : "0"), String.valueOf(typeFace), String.valueOf(style));
 	}
 
