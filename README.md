@@ -4,6 +4,9 @@ This is a fork of the [Android-Universal-Image-Loader](https://github.com/nostra
 adoption of new sources of images that require something more complex than just getting from a URL. An exmple of why this was forked to make this change is to adopt Flickr as
 a source because of the need to do an initial call to generate a list of images, then another call once an image is picked from said list. This also makes it easy to adopt
 new custom URI schemes you may be using within your app.
+Another key feature is the ability to access well known sources straight out of the box with no configuration. See below about Gravatar, Google Maps, etc.
+
+Big thanks go out to nostra13 for the base work on this library!
 
 ## Features
  * Multithread image loading (async or sync)
@@ -52,6 +55,8 @@ To set your group Id (Optional):
 	FlickrServiceHelper.setGroupId(YOUR_GROUP_ID);
 ```
 
+You can then create a flickr image by passing an instance of `FlickrImage` to `displayImage` or `loadImage`
+
 ### Image URI interface *New*:
 Now any Java object implementing the `ImageServiceOptions` can be used as an argument to the
 `displayImage` or `loadImage` methods on the ImageLoader interface. This allows for creation and
@@ -64,7 +69,8 @@ to be retrieved from a service. These are:
 - `StaticMapsImage`
 - `SimpleTextImage`
 
-The names give an accurate description of what they're attempting to achieve.
+The names give an accurate description of what they're attempting to achieve. To use them, simply
+pass an instance of this object to the `displayImage` or `loadImage`.
 
 ### Adding a new scheme handler
 The new downloading system provides the ability to add a new scheme to handle by only providing the
