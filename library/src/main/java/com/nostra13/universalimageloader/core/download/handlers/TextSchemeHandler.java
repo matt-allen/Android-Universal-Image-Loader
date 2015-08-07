@@ -31,7 +31,7 @@ public class TextSchemeHandler extends SchemeHandler
 		image.fromUrl(path);
 		TextView textView = getTextView(context);
 		String text = image.getText();
-		textView.setText(image.isUsingInitials() ? text.substring(0, 1) : text);
+		textView.setText(image.isUsingInitials() ? image.getInitials() : text);
 		textView.setBackgroundColor(image.getColour());
 		switch (image.getTypeFace())
 		{
@@ -44,7 +44,7 @@ public class TextSchemeHandler extends SchemeHandler
 				break;
 
 			case SimpleTextImage.TYPEFACE_THIN:
-				textView.setTypeface(Typeface.create("sans-serif-thin", Typeface.NORMAL));
+				textView.setTypeface(Typeface.create("sans-serif-thin", Typeface.SANS_SERIF.getStyle()));
 				break;
 		}
 		Drawable bgDrawable = textView.getBackground();

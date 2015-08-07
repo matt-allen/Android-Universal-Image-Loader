@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Random;
 
 /**
  * // TODO Add class description
@@ -30,6 +31,20 @@ public class SimpleTextImage implements ImageServiceOptions
 	public static final int STYLE_BOLD = 1;
 	public static final int STYLE_NORMAL = 2;
 
+//	@IntDef({COLOUR_RED, COLOUR_PINK, COLOUR_PURPLE, COLOUR_DEEP_PURPLE,
+//			COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE, COLOUR_RANDOM})
+//	@Retention(RetentionPolicy.SOURCE)
+//	public @interface Colour{}
+	public static final int COLOUR_RED = Color.parseColor("#F44336");
+	public static final int COLOUR_PINK = Color.parseColor("#E91E63");
+	public static final int COLOUR_PURPLE = Color.parseColor("#9C27B0");
+	public static final int COLOUR_DEEP_PURPLE = Color.parseColor("#673AB7");
+	public static final int COLOUR_INDIGO = Color.parseColor("#3F51B5");
+	public static final int COLOUR_BLUE = Color.parseColor("#2196F3");
+	public static final int COLOUR_TEAL = Color.parseColor("#009688");
+	public static final int COLOUR_DEEP_ORANGE = Color.parseColor("#FF5722");
+	public static final int COLOUR_RANDOM = -1;
+
 	private String text;
 	private boolean useInitials;
 	private int typeFace;
@@ -47,7 +62,7 @@ public class SimpleTextImage implements ImageServiceOptions
 
 	public SimpleTextImage(String text, boolean useInitials)
 	{
-		this(text, -1, useInitials, TYPEFACE_THIN, STYLE_NORMAL);
+		this(text, COLOUR_RANDOM, useInitials, TYPEFACE_THIN, STYLE_NORMAL);
 	}
 
 	public SimpleTextImage(String text)
@@ -87,10 +102,33 @@ public class SimpleTextImage implements ImageServiceOptions
 		return colour;
 	}
 
+	protected int getRandomColour()
+	{
+		int[] colours = new int[]{COLOUR_RED, COLOUR_PINK, COLOUR_PURPLE, COLOUR_DEEP_PURPLE,
+				COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE, COLOUR_RANDOM};
+		return colours[new Random().nextInt(colours.length-1)];
+	}
+
+	public String getInitials()
+	{
+		String[] names = text.split(" ");
+		String returnable;
+		if (names.length > 1)
+		{
+			returnable = names[0].substring(0,1);
+			returnable += names[names.length-1].substring(0,1);
+		}
+		else
+		{
+			returnable = names[0].substring(0,1);
+		}
+		return returnable;
+	}
+
 	@Override
 	public String createUrl()
 	{
-		return String.format("text://%s/%s/%s/%s/%s", text, String.valueOf(Color.BLUE),
+		return String.format("text://%s/%s/%s/%s/%s", text, String.valueOf((colour == COLOUR_RANDOM?getRandomColour():colour)),
 				(useInitials ? "1" : "0"), String.valueOf(typeFace), String.valueOf(style));
 	}
 
