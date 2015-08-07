@@ -1,4 +1,4 @@
-package com.nostra13.universalimageloader.core.model;
+package com.nostra13.universalimageloader.image;
 
 /**
  * Interface for constructing URLs for talking to a image service

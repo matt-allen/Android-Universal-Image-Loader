@@ -1,6 +1,7 @@
-package com.nostra13.universalimageloader.core.model;
+package com.nostra13.universalimageloader.image;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -30,7 +31,7 @@ public class GravatarImage implements ImageServiceOptions
 	private String extension;
 	private String emailHash;
 
-	public GravatarImage(String email, @Nullable String extension, @Size int size)
+	public GravatarImage(@NonNull String email, @Nullable String extension, @Size int size)
 	{
 		this.emailHash = hash(email);
 		this.extension = extension;

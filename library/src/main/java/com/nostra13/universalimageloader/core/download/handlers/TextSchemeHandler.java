@@ -10,7 +10,7 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.model.SimpleTextImage;
+import com.nostra13.universalimageloader.image.SimpleTextImage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

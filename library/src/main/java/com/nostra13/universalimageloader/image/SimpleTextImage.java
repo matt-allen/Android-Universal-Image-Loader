@@ -1,14 +1,24 @@
-package com.nostra13.universalimageloader.core.model;
+package com.nostra13.universalimageloader.image;
 
 import android.support.annotation.IntDef;
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Random;
 
 /**
- * // TODO Add class description
+ * Construct Gmail-style contact initials image from text.
+ *
+ * Available options on this view:
+ * <ul>
+ *     <li>Text: The name of the person to create initials from (If useInitials is
+ *     {@code true} - see below), otherwise the raw text that will be displayed in the image</li>
+ *     <li>Colour: Background colour of the image</li>
+ *     <li>useInitials: If you only want to the use the initials of text given
+ *     <br/>Default is {@code true}</li>
+ *     <li>Typeface: </li>
+ * </ul>
  *
  * @author Matt Allen
  * @project UniversalImageLoader
@@ -23,17 +33,6 @@ public class SimpleTextImage implements ImageServiceOptions
 	public static final int TYPEFACE_MONOSPACE = 2;
 	public static final int TYPEFACE_CONDENSED = 3;
 
-	@IntDef({STYLE_NORMAL, STYLE_ITALIC, STYLE_BOLD})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface Style{}
-	public static final int STYLE_ITALIC = 0;
-	public static final int STYLE_BOLD = 1;
-	public static final int STYLE_NORMAL = 2;
-
-	@IntDef({COLOUR_RED, COLOUR_PINK, COLOUR_PURPLE, COLOUR_DEEP_PURPLE,
-			COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE, COLOUR_RANDOM})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface Colour{}
 	public static final int COLOUR_RED = -769226;
 	public static final int COLOUR_PINK = -1499549;
 	public static final int COLOUR_PURPLE = -6543440;
@@ -45,28 +44,31 @@ public class SimpleTextImage implements ImageServiceOptions
 	public static final int COLOUR_RANDOM = -1;
 
 	private String text;
-	private boolean useInitials;
+	private boolean useInitials = true;
 	private int typeFace;
-	private int style;
 	private int colour;
 
-	public SimpleTextImage(String text, @Colour int colour, boolean useInitials, @Typeface int typeFace, @Style int style)
+	public SimpleTextImage(@NonNull String text, int colour, boolean useInitials, @Typeface int typeFace)
 	{
 		this.text = text;
 		this.useInitials = useInitials;
 		this.typeFace = typeFace;
-		this.style = style;
 		this.colour = colour;
 	}
 
 	public SimpleTextImage(String text, boolean useInitials)
 	{
-		this(text, COLOUR_RANDOM, useInitials, TYPEFACE_THIN, STYLE_NORMAL);
+		this(text, COLOUR_RANDOM, useInitials, TYPEFACE_THIN);
 	}
 
 	public SimpleTextImage(String text)
 	{
-		this(text, (!TextUtils.isEmpty(text) && text.length() > 1));
+		this(text, true);
+	}
+
+	public SimpleTextImage(String text, int colour)
+	{
+		this(text, colour, true, TYPEFACE_THIN);
 	}
 
 	public SimpleTextImage()
@@ -90,13 +92,6 @@ public class SimpleTextImage implements ImageServiceOptions
 		return typeFace;
 	}
 
-	@Style
-	public int getStyle()
-	{
-		return style;
-	}
-
-	@Colour
 	public int getColour()
 	{
 		return colour;
@@ -128,8 +123,8 @@ public class SimpleTextImage implements ImageServiceOptions
 	@Override
 	public String createUrl()
 	{
-		return String.format("text://%s/%s/%s/%s/%s", text, String.valueOf((colour == COLOUR_RANDOM?getRandomColour():colour)),
-				(useInitials ? "1" : "0"), String.valueOf(typeFace), String.valueOf(style));
+		return String.format("text://%s/%s/%s/%s", text, String.valueOf((colour == COLOUR_RANDOM?getRandomColour():colour)),
+				(useInitials ? "1" : "0"), String.valueOf(typeFace));
 	}
 
 	@Override
@@ -144,6 +139,5 @@ public class SimpleTextImage implements ImageServiceOptions
 			useInitials = true;
 		}
 		typeFace = Integer.parseInt(string[5]);
-		style = Integer.parseInt(string[6]);
 	}
 }

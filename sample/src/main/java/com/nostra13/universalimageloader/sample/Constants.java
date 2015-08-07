@@ -15,10 +15,10 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.sample;
 
-import com.nostra13.universalimageloader.core.model.FlickrImage;
-import com.nostra13.universalimageloader.core.model.GravatarImage;
-import com.nostra13.universalimageloader.core.model.SimpleTextImage;
-import com.nostra13.universalimageloader.core.model.StaticMapImage;
+import com.nostra13.universalimageloader.image.FlickrImage;
+import com.nostra13.universalimageloader.image.GravatarImage;
+import com.nostra13.universalimageloader.image.SimpleTextImage;
+import com.nostra13.universalimageloader.image.StaticMapImage;
 
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
@@ -36,10 +36,11 @@ public final class Constants {
 			new StaticMapImage.Builder().latitude(50.724224).longitude(-1.906538).defaultMarker(true).build().createUrl(),
 			new FlickrImage(40.784051, -73.930435).createUrl(),
 			new FlickrImage(50.724224, -1.906538).createUrl(),
-			new SimpleTextImage("Adam").createUrl(),
-			new SimpleTextImage("Ben").createUrl(),
+			new SimpleTextImage("Jim").createUrl(),
+			new SimpleTextImage("Adam", SimpleTextImage.COLOUR_DEEP_ORANGE, true, SimpleTextImage.TYPEFACE_CONDENSED).createUrl(),
+			new SimpleTextImage("Ben", SimpleTextImage.COLOUR_INDIGO, true, SimpleTextImage.TYPEFACE_MONOSPACE).createUrl(),
 			new SimpleTextImage("Gary Smith").createUrl(),
-			new SimpleTextImage("Tom Jones").createUrl(),
+			new SimpleTextImage("Tom Jones", SimpleTextImage.COLOUR_RED, true, SimpleTextImage.TYPEFACE_NORMAL).createUrl(),
 			new SimpleTextImage("Ian Duncan Smith").createUrl(),
 			"https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
 			"https://lh4.googleusercontent.com/--dq8niRp7W4/URquVgmXvgI/AAAAAAAAAbs/-gnuLQfNnBA/s1024/A%252520Song%252520of%252520Ice%252520and%252520Fire.jpg",

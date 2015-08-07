@@ -1,4 +1,4 @@
-package com.nostra13.universalimageloader.core.model;
+package com.nostra13.universalimageloader.image;
 
 import android.text.TextUtils;
 

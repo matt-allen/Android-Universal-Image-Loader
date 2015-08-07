@@ -1,4 +1,4 @@
-package com.nostra13.universalimageloader.core.model;
+package com.nostra13.universalimageloader.image;
 
 /**
  * Image options for the Flickr service. When this is passed into
