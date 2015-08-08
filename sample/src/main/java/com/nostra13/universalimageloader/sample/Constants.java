@@ -41,7 +41,7 @@ public final class Constants {
 			new SimpleTextImage("Ben", SimpleTextImage.COLOUR_INDIGO, true, SimpleTextImage.TYPEFACE_MONOSPACE).createUrl(),
 			new SimpleTextImage("Gary Smith").createUrl(),
 			new SimpleTextImage("Tom Jones", SimpleTextImage.COLOUR_RED, true, SimpleTextImage.TYPEFACE_NORMAL).createUrl(),
-			new SimpleTextImage("Ian Duncan Smith").createUrl(),
+			new GravatarImage("ianduncansmith@3sidedcube.com").createUrl() + "±" + new SimpleTextImage("Ian Duncan Smith").createUrl(),
 			"https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
 			"https://lh4.googleusercontent.com/--dq8niRp7W4/URquVgmXvgI/AAAAAAAAAbs/-gnuLQfNnBA/s1024/A%252520Song%252520of%252520Ice%252520and%252520Fire.jpg",
 			"https://lh5.googleusercontent.com/-7qZeDtRKFKc/URquWZT1gOI/AAAAAAAAAbs/hqWgteyNXsg/s1024/Another%252520Rockaway%252520Sunset.jpg",
