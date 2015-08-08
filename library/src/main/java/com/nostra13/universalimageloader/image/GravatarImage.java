@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class GravatarImage implements ImageServiceOptions
 {
-	private static final String URL = "http://www.gravatar.com/avatar/%s?s=%s";
+	private static final String URL = "http://www.gravatar.com/avatar/%s?s=%s&d=failplskthnxbye";
 	@IntDef({SIZE_SMALL, SIZE_MEDIUM, SIZE_LARGE, SIZE_MAX})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface Size{}
