@@ -512,17 +512,6 @@ public final class ImageLoaderConfiguration {
 		}
 
 		/**
-		 * Sets utility which will be responsible for downloading of image.<br />
-		 * Default value -
-		 * {@link com.nostra13.universalimageloader.core.DefaultConfigurationFactory#createImageDownloader(Context)
-		 * DefaultConfigurationFactory.createImageDownloader()}
-		 */
-		public Builder imageDownloader(ImageDownloader imageDownloader) {
-			this.downloader = imageDownloader;
-			return this;
-		}
-
-		/**
 		 * Sets utility which will be responsible for decoding of image stream.<br />
 		 * Default value -
 		 * {@link com.nostra13.universalimageloader.core.DefaultConfigurationFactory#createImageDecoder(boolean)
