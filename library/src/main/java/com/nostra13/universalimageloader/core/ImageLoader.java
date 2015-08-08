@@ -43,6 +43,9 @@ import com.nostra13.universalimageloader.utils.ImageSizeUtils;
 import com.nostra13.universalimageloader.utils.L;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Singletone for image loading and displaying at {@link ImageView ImageViews}<br />
  * <b>NOTE:</b> {@link #init(ImageLoaderConfiguration)} method must be called before any other method.
@@ -66,6 +69,9 @@ public class ImageLoader
 
 	private ImageLoaderConfiguration configuration;
 	private ImageLoaderEngine engine;
+	private String urlSeparator = "±";
+
+	private List<String> failedDownloads = new ArrayList<>();
 
 	private ImageLoadingListener defaultListener = new SimpleImageLoadingListener();
 
@@ -73,26 +79,6 @@ public class ImageLoader
 
 	/** Returns singleton class instance */
 	public static ImageLoader getInstance()
-	{
-		if (instance == null)
-		{
-			synchronized (ImageLoader.class)
-			{
-				if (instance == null)
-				{
-					instance = new ImageLoader();
-				}
-			}
-		}
-		return instance;
-	}
-
-	/**
-	 * A shorted call to get an instance of the loading library.
-	 * The original must remain for backwards compatibility
-	 * @return Instance of the image loader
-	 */
-	public static ImageLoader get()
 	{
 		if (instance == null)
 		{
@@ -181,6 +167,21 @@ public class ImageLoader
 		}
 	}
 
+	public void addFailedDownload(String url)
+	{
+		failedDownloads.add(url);
+	}
+
+	public String getUrlSeparator()
+	{
+		return urlSeparator;
+	}
+
+	public void setUrlSeparator(String character)
+	{
+		urlSeparator = character;
+	}
+
 	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
@@ -200,6 +201,36 @@ public class ImageLoader
 	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware)
 	{
 		displayImage(urlCreator.createUrl(), imageAware, null, null, null);
+	}
+
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware, ImageLoadingListener listener,
+	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
+	{
+		String longUrl = "";
+		for (ImageServiceOptions urlCreator : urlCreators)
+		{
+			String url = urlCreator.createUrl();
+			if (!failedDownloads.contains(url))
+			{
+				longUrl += url + urlSeparator;
+			}
+		}
+		displayImage(longUrl, imageAware, options, listener, progressListener);
+	}
+
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware, ImageLoadingListener listener, DisplayImageOptions options)
+	{
+		displayImage(urlCreators, imageAware, listener, options, null);
+	}
+
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware, DisplayImageOptions options)
+	{
+		displayImage(urlCreators, imageAware, null, options, null);
+	}
+
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware)
+	{
+		displayImage(urlCreators, imageAware, null, null, null);
 	}
 
 	/**
