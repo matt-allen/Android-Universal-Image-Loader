@@ -19,6 +19,7 @@ Big thanks go out to nostra13 for the base work on this library!
  * Flickr
  * Google Maps
  * Gravatar
+ * Memory and thread performance improvements
 
 ## [Documentation](https://github.com/3sidedcube/Android-Universal-Image-Loader/wiki)
  * **[Quick Setup](https://github.com/3sidedcube/Android-Universal-Image-Loader/wiki/Quick-Setup)**
