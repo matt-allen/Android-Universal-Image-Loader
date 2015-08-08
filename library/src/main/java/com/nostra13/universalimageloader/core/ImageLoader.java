@@ -233,6 +233,40 @@ public class ImageLoader
 		displayImage(urlCreators, imageAware, null, null, null);
 	}
 
+	public void displayImage(String[] urls, ImageAware imageAware, ImageLoadingListener listener,
+	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
+	{
+		String longUrl = "";
+		for (String url : urls)
+		{
+			if (!failedDownloads.contains(url))
+			{
+				longUrl += url + urlSeparator;
+			}
+		}
+		displayImage(longUrl, imageAware, options, listener, progressListener);
+	}
+
+	public void displayImage(String[] urls, ImageAware imageAware, ImageLoadingListener listener, DisplayImageOptions options)
+	{
+		displayImage(urls, imageAware, listener, options, null);
+	}
+
+	public void displayImage(String[] urls, ImageAware imageAware, ImageLoadingListener listener)
+	{
+		displayImage(urls, imageAware, listener, null, null);
+	}
+
+	public void displayImage(String[] urls, ImageAware imageAware, DisplayImageOptions options)
+	{
+		displayImage(urls, imageAware, null, options, null);
+	}
+
+	public void displayImage(String[] urls, ImageAware imageAware)
+	{
+		displayImage(urls, imageAware, null, null, null);
+	}
+
 	/**
 	 * Adds display image task to execution pool. Image will be set to ImageAware when it's turn. <br/>
 	 * Default {@linkplain DisplayImageOptions display image options} from {@linkplain ImageLoaderConfiguration
