@@ -57,13 +57,13 @@ public class FallbackTestPagerAdapter extends FragmentPagerAdapter
 		switch (position)
 		{
 			case 0:
-				return "ImageServiceOptions[]";
+				return "Image Service Options Array";
 
 			case 1:
-				return "ImageServiceOptions";
+				return "Image Service Options";
 
 			case 2:
-				return "String[]";
+				return "String Array";
 		}
 		return super.getPageTitle(position);
 	}
