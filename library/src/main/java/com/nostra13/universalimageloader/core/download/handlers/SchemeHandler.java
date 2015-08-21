@@ -21,9 +21,13 @@ import java.net.URL;
  */
 public abstract class SchemeHandler
 {
-	/** {@value} */
+	/**
+	 * {@value}
+	 */
 	protected static final String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
-	/** {@value} */
+	/**
+	 * {@value}
+	 */
 	protected static final int BUFFER_SIZE = 32 * 1024; // 32 Kb
 	protected static final int MAX_REDIRECT_COUNT = 5;
 
@@ -33,13 +37,13 @@ public abstract class SchemeHandler
 	 * Create {@linkplain HttpURLConnection HTTP connection} for incoming URL
 	 *
 	 * @param url URL to connect to
-	 *
 	 * @return {@linkplain HttpURLConnection Connection} for incoming URL.
 	 * Connection isn't established so it still configurable.
 	 * @throws IOException if some I/O error occurs during network
 	 * request or if no InputStream could be created for URL.
 	 */
-	protected HttpURLConnection createNetworkConnection(String url, int connectTimeout, int readTimeout) throws IOException {
+	protected HttpURLConnection createNetworkConnection(String url, int connectTimeout, int readTimeout) throws IOException
+	{
 		String encodedUrl = Uri.encode(url, ALLOWED_URI_CHARS);
 		HttpURLConnection conn = (HttpURLConnection) new URL(encodedUrl).openConnection();
 		conn.setConnectTimeout(connectTimeout);
@@ -49,6 +53,7 @@ public abstract class SchemeHandler
 
 	/**
 	 * Check that the data returned in the network stream is worth downloading
+	 *
 	 * @param conn
 	 * @return
 	 * @throws IOException
@@ -58,24 +63,30 @@ public abstract class SchemeHandler
 		return (conn.getResponseCode() >= 200 && conn.getResponseCode() < 300);
 	}
 
-	protected InputStream getStreamFromNetwork(String imageUri, int connectTimeout, int readTimeout, Object extra) throws IOException {
+	protected InputStream getStreamFromNetwork(String imageUri, int connectTimeout, int readTimeout, Object extra) throws IOException
+	{
 		HttpURLConnection conn = createNetworkConnection(imageUri, connectTimeout, readTimeout);
 
 		int redirectCount = 0;
-		while (conn.getResponseCode() / 100 == 3 && redirectCount < MAX_REDIRECT_COUNT) {
+		while (conn.getResponseCode() / 100 == 3 && redirectCount < MAX_REDIRECT_COUNT)
+		{
 			conn = createNetworkConnection(conn.getHeaderField("Location"), connectTimeout, readTimeout);
 			redirectCount++;
 		}
 
 		InputStream imageStream;
-		try {
+		try
+		{
 			imageStream = conn.getInputStream();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// Read all data to allow reuse connection (http://bit.ly/1ad35PY)
 			IoUtils.readAndCloseStream(conn.getErrorStream());
 			throw e;
 		}
-		if (!isProcessable(conn)) {
+		if (!isProcessable(conn))
+		{
 			IoUtils.closeSilently(imageStream);
 			throw new IOException("Image request failed with response code " + conn.getResponseCode());
 		}

@@ -2,13 +2,14 @@ package com.nostra13.universalimageloader.core.download;
 
 import android.content.Context;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.download.handlers.ContentSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandler;
-import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemeDownloader;
+import com.nostra13.universalimageloader.core.download.handlers.FlickrSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.HttpSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.SchemeHandler;
-import com.nostra13.universalimageloader.core.download.handlers.StaticMapSchemeHandler;
+import com.nostra13.universalimageloader.core.download.handlers.TextSchemeHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,8 +64,8 @@ public class ExtensibleImageDownloader implements ImageDownloader
 			mHandlers.put("content", new ContentSchemeHandler());
 			mHandlers.put("http", http);
 			mHandlers.put("https", http);
-			mHandlers.put("flickr", new FlickrSchemeDownloader());
-			mHandlers.put("maps", new StaticMapSchemeHandler());
+			mHandlers.put("flickr", new FlickrSchemeHandler());
+			mHandlers.put("text", new TextSchemeHandler());
 		}
 	}
 
@@ -89,11 +90,24 @@ public class ExtensibleImageDownloader implements ImageDownloader
 	@Override
 	public InputStream getStream(String imageUri, Object extra) throws IOException
 	{
-		String schema = imageUri.split(":")[0];
-		if (mHandlers.containsKey(schema))
+		String[] urls = imageUri.split(ImageLoader.getInstance().getUrlSeparator());
+		InputStream is = null;
+		for (String url : urls)
 		{
-			return mHandlers.get(schema).getStreamForPath(context, imageUri, extra, connectTimeout, readTimeout);
+			String schema = url.split(":")[0];
+			if (mHandlers.containsKey(schema))
+			{
+				is = mHandlers.get(schema).getStreamForPath(context, url, extra, connectTimeout, readTimeout);
+			}
+			if (is != null)
+			{
+				break;
+			}
+			else
+			{
+				ImageLoader.getInstance().addFailedDownload(url);
+			}
 		}
-		return null;
+		return is;
 	}
 }

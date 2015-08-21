@@ -15,12 +15,13 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.sample.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.sample.Constants;
 import com.nostra13.universalimageloader.sample.R;
@@ -38,7 +39,8 @@ import java.io.InputStream;
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-public class HomeActivity extends Activity {
+public class HomeActivity extends AppCompatActivity
+{
 
 	private static final String TEST_FILE_NAME = "Universal Image Loader @#&=+-_.,!()~'%20.png";
 
@@ -80,6 +82,11 @@ public class HomeActivity extends Activity {
 	public void onFragmentsClick(View view) {
 		Intent intent = new Intent(this, ComplexImageActivity.class);
 		startActivity(intent);
+	}
+
+	public void onFallbacksClick(View view)
+	{
+		startActivity(new Intent(this, FallbackTestActivity.class));
 	}
 
 	@Override

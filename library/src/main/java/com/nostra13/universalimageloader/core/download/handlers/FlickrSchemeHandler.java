@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * @author Matt Allen
  * @project UniversalImageLoader
  */
-public class FlickrSchemeDownloader extends SchemeHandler
+public class FlickrSchemeHandler extends SchemeHandler
 {
 	private static final String FORMAT = "json";
 	private static final String METHOD = "flickr.photos.search";
@@ -37,11 +37,6 @@ public class FlickrSchemeDownloader extends SchemeHandler
 		else if (TextUtils.isEmpty(FlickrServiceHelper.getApiKey()))
 		{
 			System.err.println("The API key for Flickr must first be set by calling FlickrServiceHelper.setApiKey(String)");
-			return null;
-		}
-		else if (TextUtils.isEmpty(FlickrServiceHelper.getGroupId()))
-		{
-			System.err.println("The Group Id for Flickr must be set by calling FlickrServiceHelper.setGroupId(String)");
 			return null;
 		}
 		else
@@ -95,8 +90,10 @@ public class FlickrSchemeDownloader extends SchemeHandler
 
 	private String createUrl(double latitude, double longitude)
 	{
-		return String.format("https://api.flickr.com/services/rest/?method=%s&api_key=%s&group_id=%s&lat=%s&lon=%s&format=%s&nojsoncallback=1",
-				METHOD, FlickrServiceHelper.getApiKey(), FlickrServiceHelper.getGroupId(), String.valueOf(latitude), String.valueOf(longitude), FORMAT);
+		String groupId = FlickrServiceHelper.getGroupId();
+		return String.format("https://api.flickr.com/services/rest/?method=%s&api_key=%s%s&lat=%s&lon=%s&format=%s&nojsoncallback=1",
+				METHOD, FlickrServiceHelper.getApiKey(), (TextUtils.isEmpty(groupId)?"":String.format("&group_id=%s",groupId)),
+				String.valueOf(latitude), String.valueOf(longitude), FORMAT);
 	}
 
 	public class Photo

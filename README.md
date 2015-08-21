@@ -4,6 +4,9 @@ This is a fork of the [Android-Universal-Image-Loader](https://github.com/nostra
 adoption of new sources of images that require something more complex than just getting from a URL. An exmple of why this was forked to make this change is to adopt Flickr as
 a source because of the need to do an initial call to generate a list of images, then another call once an image is picked from said list. This also makes it easy to adopt
 new custom URI schemes you may be using within your app.
+Another key feature is the ability to access well known sources straight out of the box with no configuration. See below about Gravatar, Google Maps, etc.
+
+Big thanks go out to nostra13 for the base work on this library!
 
 ## Features
  * Multithread image loading (async or sync)
@@ -11,7 +14,12 @@ new custom URI schemes you may be using within your app.
  * Many customization options for every display image call (stub images, caching switch, decoding options, Bitmap processing and displaying, etc.)
  * Image caching in memory and/or on disk (device's file system or SD card)
  * Listening loading process (including downloading progress)
- * Custom URI adoption through handler object
+ * Custom URI adoption through `SchemeHandler`
+ * URI generation through interface
+ * Flickr
+ * Google Maps
+ * Gravatar
+ * Memory and thread performance improvements
 
 ## [Documentation](https://github.com/3sidedcube/Android-Universal-Image-Loader/wiki)
  * **[Quick Setup](https://github.com/3sidedcube/Android-Universal-Image-Loader/wiki/Quick-Setup)**
@@ -33,7 +41,6 @@ new custom URI schemes you may be using within your app.
 "assets://image.png" // from assets
 "drawable://" + R.drawable.img // from drawables (non-9patch images)
 "flickr://-52.34509/-1.234242" // Will load image from Flickr for latitude (First arg) and longitude (Second arg)
-"maps://-47.195742/2.23049" // Get Google maps static image with a pin at this location
 ```
 **NOTE:** Use `drawable://` only if you really need it! Always **consider the native way** to load drawables - `ImageView.setImageResource(...)` instead of using of `ImageLoader`.
 
@@ -44,15 +51,27 @@ value to set, to set the API key:
 	FlickrServiceHelper.setApiKey(YOUR_API_KEY);
 ```
 
-To set your group Id:
+To set your group Id (Optional):
 ``` java
 	FlickrServiceHelper.setGroupId(YOUR_GROUP_ID);
 ```
 
-Once these are set, you can use the convenience method for getting a flickr image for a location
-``` java
-	ImageLoader.getInstance().getFlickrImage(lat, lng, imageView);
-```
+You can then create a flickr image by passing an instance of `FlickrImage` to `displayImage` or `loadImage`
+
+### Image URI interface *New*:
+Now any Java object implementing the `ImageServiceOptions` can be used as an argument to the
+`displayImage` or `loadImage` methods on the ImageLoader interface. This allows for creation and
+deconstruction of an object with just a URI that would be handled with the ImageLoader features.
+
+Some objects are already provided with the library to help in the creation of images that need
+to be retrieved from a service. These are:
+- `GravatarImage`
+- `FlickrImage`
+- `StaticMapsImage`
+- `SimpleTextImage`
+
+The names give an accurate description of what they're attempting to achieve. To use them, simply
+pass an instance of this object to the `displayImage` or `loadImage`.
 
 ### Adding a new scheme handler
 The new downloading system provides the ability to add a new scheme to handle by only providing the

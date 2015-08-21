@@ -7,8 +7,9 @@
 
     <application
         android:name=".UILApplication"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+		android:theme="@style/BaseTheme"
 		android:allowBackup="false">
         <activity
             android:name=".activity.HomeActivity"
@@ -36,6 +37,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
         </receiver>
+		<activity android:name=".activity.FallbackTestActivity"/>
     </application>
 
 </manifest>

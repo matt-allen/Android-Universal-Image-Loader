@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * // TODO Class doc
+ * Downloader for any URL with the http:// scheme
  *
  * @author Matt Allen
  * @project UniversalImageLoader
