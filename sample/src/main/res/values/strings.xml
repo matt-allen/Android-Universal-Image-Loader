@@ -26,5 +26,6 @@
 
 	<!-- Content descriptions -->
 	<string name="descr_image">Image</string>
+	<string name="image_fallbacks">Image Fallbacks</string>
 
 </resources>

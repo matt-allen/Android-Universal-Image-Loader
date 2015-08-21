@@ -17,10 +17,11 @@ package com.nostra13.universalimageloader.sample.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+
 import com.nostra13.universalimageloader.sample.R;
 import com.nostra13.universalimageloader.sample.fragment.ImageGridFragment;
 import com.nostra13.universalimageloader.sample.fragment.ImageListFragment;
@@ -28,7 +29,8 @@ import com.nostra13.universalimageloader.sample.fragment.ImageListFragment;
 /**
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  */
-public class ComplexImageActivity extends FragmentActivity {
+public class ComplexImageActivity extends AppCompatActivity
+{
 
 	private static final String STATE_POSITION = "STATE_POSITION";
 

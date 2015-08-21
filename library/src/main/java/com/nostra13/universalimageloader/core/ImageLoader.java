@@ -55,7 +55,6 @@ import java.util.List;
  */
 public class ImageLoader
 {
-
 	public static final String TAG = ImageLoader.class.getSimpleName();
 
 	static final String LOG_INIT_CONFIG = "Initialize ImageLoader with configuration";
@@ -182,28 +181,28 @@ public class ImageLoader
 		urlSeparator = character;
 	}
 
-	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware, ImageLoadingListener listener,
+	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
 		displayImage(urlCreator.createUrl(), imageAware, options, listener, progressListener);
 	}
 
-	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware, ImageLoadingListener listener, DisplayImageOptions options)
+	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
 	{
 		displayImage(urlCreator.createUrl(), imageAware, options, listener, null);
 	}
 
-	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware, DisplayImageOptions options)
+	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware, DisplayImageOptions options)
 	{
 		displayImage(urlCreator.createUrl(), imageAware, options, null, null);
 	}
 
-	public void displayImage(ImageServiceOptions urlCreator, ImageAware imageAware)
+	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware)
 	{
 		displayImage(urlCreator.createUrl(), imageAware, null, null, null);
 	}
 
-	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware, ImageLoadingListener listener,
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
 		String longUrl = "";
@@ -218,22 +217,22 @@ public class ImageLoader
 		displayImage(longUrl, imageAware, options, listener, progressListener);
 	}
 
-	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware, ImageLoadingListener listener, DisplayImageOptions options)
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
 	{
 		displayImage(urlCreators, imageAware, listener, options, null);
 	}
 
-	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware, DisplayImageOptions options)
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, DisplayImageOptions options)
 	{
 		displayImage(urlCreators, imageAware, null, options, null);
 	}
 
-	public void displayImage(ImageServiceOptions[] urlCreators, ImageAware imageAware)
+	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware)
 	{
 		displayImage(urlCreators, imageAware, null, null, null);
 	}
 
-	public void displayImage(String[] urls, ImageAware imageAware, ImageLoadingListener listener,
+	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
 		String longUrl = "";
@@ -247,24 +246,93 @@ public class ImageLoader
 		displayImage(longUrl, imageAware, options, listener, progressListener);
 	}
 
-	public void displayImage(String[] urls, ImageAware imageAware, ImageLoadingListener listener, DisplayImageOptions options)
+	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
 	{
 		displayImage(urls, imageAware, listener, options, null);
 	}
 
-	public void displayImage(String[] urls, ImageAware imageAware, ImageLoadingListener listener)
+	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener)
 	{
 		displayImage(urls, imageAware, listener, null, null);
 	}
 
-	public void displayImage(String[] urls, ImageAware imageAware, DisplayImageOptions options)
+	public void displayImage(String[] urls, ImageView imageAware, DisplayImageOptions options)
 	{
 		displayImage(urls, imageAware, null, options, null);
 	}
 
-	public void displayImage(String[] urls, ImageAware imageAware)
+	public void displayImage(String[] urls, ImageView imageAware)
 	{
 		displayImage(urls, imageAware, null, null, null);
+	}
+
+	public void loadImage(String[] uris, ImageSize targetImageSize, DisplayImageOptions options,
+	                      ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String longUrl = "";
+		for (String url : uris)
+		{
+			if (!failedDownloads.contains(url))
+			{
+				longUrl += url + urlSeparator;
+			}
+		}
+		loadImage(longUrl, targetImageSize, options, listener, progressListener);
+	}
+
+	public void loadImage(String[] uris, ImageSize targetImageSize, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadImage(uris, targetImageSize, options, listener, null);
+	}
+
+	public void loadImage(String[] uris, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadImage(uris, null, options, listener, null);
+	}
+
+	public void loadImage(String[] uris, ImageSize targetImageSize, ImageLoadingListener listener)
+	{
+		loadImage(uris, targetImageSize, null, listener, null);
+	}
+
+	public void loadImage(String[] uris, ImageLoadingListener listener)
+	{
+		loadImage(uris, null, null, listener, null);
+	}
+
+	public void loadImage(ImageServiceOptions[] uris, ImageSize targetImageSize, DisplayImageOptions options,
+	                      ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String longUrl = "";
+		for (ImageServiceOptions image : uris)
+		{
+			String url = image.createUrl();
+			if (!failedDownloads.contains(url))
+			{
+				longUrl += url + urlSeparator;
+			}
+		}
+		loadImage(longUrl, targetImageSize, options, listener, progressListener);
+	}
+
+	public void loadImage(ImageServiceOptions[] uris, ImageSize targetImageSize, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadImage(uris, targetImageSize, options, listener, null);
+	}
+
+	public void loadImage(ImageServiceOptions[] uris, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		loadImage(uris, null, options, listener, null);
+	}
+
+	public void loadImage(ImageServiceOptions[] uris, ImageSize targetImageSize, ImageLoadingListener listener)
+	{
+		loadImage(uris, targetImageSize, null, listener, null);
+	}
+
+	public void loadImage(ImageServiceOptions[] uris, ImageLoadingListener listener)
+	{
+		loadImage(uris, null, null, listener, null);
 	}
 
 	/**
