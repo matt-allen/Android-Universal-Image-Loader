@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,14 +63,14 @@ public class TextSchemeHandler extends SchemeHandler
 	private TextView getTextView(Context context)
 	{
 		TextView textView = new TextView(context);
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.CENTER;
 		textView.setLayoutParams(params);
 		textView.setGravity(Gravity.CENTER);
-		textView.setPadding(16, 46, 16, 16);
 		textView.layout(0, 0, 384, 384);
+		textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 220);
 		textView.requestLayout();
-		textView.setTextSize(68);
+		textView.setPadding(16, 46, 16, 16);
 		textView.setTextColor(Color.WHITE);
 		return textView;
 	}
