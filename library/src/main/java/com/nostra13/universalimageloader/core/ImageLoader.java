@@ -213,7 +213,7 @@ public class ImageLoader
 			{
 				engine.cancelDisplayTaskFor(imageAwareView);
 				listener.onLoadingStarted(url, imageAwareView.getWrappedView());
-				if (options.shouldShowImageForEmptyUri())
+				if (options != null && options.shouldShowImageForEmptyUri())
 				{
 					imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
 				}
@@ -229,19 +229,19 @@ public class ImageLoader
 				@Override
 				public void onLoadingStarted(String imageUri, View view)
 				{
-					listener.onLoadingStarted(imageUri, view);
+					if (listener != null) listener.onLoadingStarted(imageUri, view);
 				}
 
 				@Override
 				public void onLoadingFailed(String imageUri, View view, FailReason failReason)
 				{
-					listener.onLoadingFailed(imageUri, view, failReason);
+					if (listener != null) listener.onLoadingFailed(imageUri, view, failReason);
 				}
 
 				@Override
 				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
 				{
-					listener.onLoadingComplete(imageUri, view, loadedImage);
+					if (listener != null) listener.onLoadingComplete(imageUri, view, loadedImage);
 					imageAwareView.setImageBitmap(loadedImage);
 					return;
 				}
@@ -249,7 +249,7 @@ public class ImageLoader
 				@Override
 				public void onLoadingCancelled(String imageUri, View view)
 				{
-					listener.onLoadingCancelled(imageUri, view);
+					if (listener != null) listener.onLoadingCancelled(imageUri, view);
 				}
 			});
 		}
