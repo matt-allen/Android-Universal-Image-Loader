@@ -1,7 +1,8 @@
 package com.nostra13.universalimageloader.core.helper;
 
 /**
- * // TODO Class doc
+ * Simple class for remembering the api key and group id (optional) for the Flickr integration.
+ * This will need to be set every time the application instantiates from the zygote.
  *
  * @author Matt Allen
  * @project UniversalImageLoader
