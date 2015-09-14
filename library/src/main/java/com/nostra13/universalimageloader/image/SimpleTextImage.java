@@ -97,7 +97,7 @@ public class SimpleTextImage implements ImageServiceOptions
 		return colour;
 	}
 
-	protected int getRandomColour()
+	public static int getRandomColour()
 	{
 		int[] colours = new int[]{COLOUR_RED, COLOUR_PINK, COLOUR_PURPLE, COLOUR_DEEP_PURPLE,
 				COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE, COLOUR_RANDOM};
@@ -123,7 +123,7 @@ public class SimpleTextImage implements ImageServiceOptions
 	@Override
 	public String createUrl()
 	{
-		return String.format("text://%s/%s/%s/%s", text, String.valueOf((colour == COLOUR_RANDOM?getRandomColour():colour)),
+		return String.format("text://%s/%s/%s/%s", text, String.valueOf(colour),
 				(useInitials ? "1" : "0"), String.valueOf(typeFace));
 	}
 

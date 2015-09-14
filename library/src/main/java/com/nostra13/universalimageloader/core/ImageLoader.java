@@ -37,6 +37,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.imageaware.NonViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.MultipleImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.image.ImageServiceOptions;
 import com.nostra13.universalimageloader.utils.ImageSizeUtils;
@@ -68,7 +69,6 @@ public class ImageLoader
 
 	private ImageLoaderConfiguration configuration;
 	private ImageLoaderEngine engine;
-	private String urlSeparator = "±";
 
 	private List<String> failedDownloads = new ArrayList<>();
 
@@ -171,16 +171,6 @@ public class ImageLoader
 		failedDownloads.add(url);
 	}
 
-	public String getUrlSeparator()
-	{
-		return urlSeparator;
-	}
-
-	public void setUrlSeparator(String character)
-	{
-		urlSeparator = character;
-	}
-
 	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
@@ -206,53 +196,24 @@ public class ImageLoader
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
 		final ImageAware imageAwareView = new ImageViewAware(imageAware);
-		for (int i = 0; i < urls.length; i++)
+		MultipleImageLoadingListener loadingListener = new MultipleImageLoadingListener(imageAwareView, listener, urls);
+		String url = urls[0];
+		if (urls.length == 0)
 		{
-			String url = urls[i];
-			if (TextUtils.isEmpty(url) && i == urls.length - 1)
+			engine.cancelDisplayTaskFor(imageAwareView);
+			listener.onLoadingStarted(url, imageAwareView.getWrappedView());
+			if (options != null && options.shouldShowImageForEmptyUri())
 			{
-				engine.cancelDisplayTaskFor(imageAwareView);
-				listener.onLoadingStarted(url, imageAwareView.getWrappedView());
-				if (options != null && options.shouldShowImageForEmptyUri())
-				{
-					imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
-				}
-				else
-				{
-					imageAware.setImageDrawable(null);
-				}
-				listener.onLoadingComplete(url, imageAwareView.getWrappedView(), null);
-				return;
+				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
 			}
-			loadImage(url, null, options, new ImageLoadingListener()
+			else
 			{
-				@Override
-				public void onLoadingStarted(String imageUri, View view)
-				{
-					if (listener != null) listener.onLoadingStarted(imageUri, view);
-				}
-
-				@Override
-				public void onLoadingFailed(String imageUri, View view, FailReason failReason)
-				{
-					if (listener != null) listener.onLoadingFailed(imageUri, view, failReason);
-				}
-
-				@Override
-				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
-				{
-					if (listener != null) listener.onLoadingComplete(imageUri, view, loadedImage);
-					imageAwareView.setImageBitmap(loadedImage);
-					return;
-				}
-
-				@Override
-				public void onLoadingCancelled(String imageUri, View view)
-				{
-					if (listener != null) listener.onLoadingCancelled(imageUri, view);
-				}
-			});
+				imageAware.setImageDrawable(null);
+			}
+			listener.onLoadingComplete(url, imageAwareView.getWrappedView(), null);
+			return;
 		}
+		loadImage(url, null, options, loadingListener);
 	}
 
 	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)

@@ -34,7 +34,8 @@ public class TextSchemeHandler extends SchemeHandler
 		TextView textView = getTextView(context);
 		String text = image.getText();
 		textView.setText(image.isUsingInitials() ? image.getInitials() : text);
-		textView.setBackgroundColor(image.getColour());
+		int colour = image.getColour();
+		textView.setBackgroundColor(colour == -1 ? SimpleTextImage.getRandomColour() : colour);
 		switch (image.getTypeFace())
 		{
 			case SimpleTextImage.TYPEFACE_MONOSPACE:
