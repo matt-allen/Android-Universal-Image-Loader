@@ -37,6 +37,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.imageaware.NonViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.MultipleImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.image.ImageServiceOptions;
 import com.nostra13.universalimageloader.utils.ImageSizeUtils;
@@ -68,7 +69,6 @@ public class ImageLoader
 
 	private ImageLoaderConfiguration configuration;
 	private ImageLoaderEngine engine;
-	private String urlSeparator = "±";
 
 	private List<String> failedDownloads = new ArrayList<>();
 
@@ -171,16 +171,6 @@ public class ImageLoader
 		failedDownloads.add(url);
 	}
 
-	public String getUrlSeparator()
-	{
-		return urlSeparator;
-	}
-
-	public void setUrlSeparator(String character)
-	{
-		urlSeparator = character;
-	}
-
 	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
@@ -202,19 +192,28 @@ public class ImageLoader
 		displayImage(urlCreator.createUrl(), imageAware, null, null, null);
 	}
 
-	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, ImageLoadingListener listener,
+	public void displayImage(String[] urls, final ImageView imageAware, final ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
-		String longUrl = "";
-		for (ImageServiceOptions urlCreator : urlCreators)
+		final ImageAware imageAwareView = new ImageViewAware(imageAware);
+		MultipleImageLoadingListener loadingListener = new MultipleImageLoadingListener(imageAwareView, listener, urls);
+		String url = urls[0];
+		if (urls.length == 0)
 		{
-			String url = urlCreator.createUrl();
-			if (!failedDownloads.contains(url))
+			engine.cancelDisplayTaskFor(imageAwareView);
+			listener.onLoadingStarted(url, imageAwareView.getWrappedView());
+			if (options != null && options.shouldShowImageForEmptyUri())
 			{
-				longUrl += url + urlSeparator;
+				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
 			}
+			else
+			{
+				imageAware.setImageDrawable(null);
+			}
+			listener.onLoadingComplete(url, imageAwareView.getWrappedView(), null);
+			return;
 		}
-		displayImage(longUrl, imageAware, options, listener, progressListener);
+		loadImage(url, null, options, loadingListener);
 	}
 
 	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
@@ -232,18 +231,14 @@ public class ImageLoader
 		displayImage(urlCreators, imageAware, null, null, null);
 	}
 
-	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener,
+	public void displayImage(ImageServiceOptions[] urls, ImageView imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
-		String longUrl = "";
-		for (String url : urls)
+		String[] createdUrls = new String[urls.length];
+		for (int i = 0; i < urls.length; i++)
 		{
-			if (!failedDownloads.contains(url))
-			{
-				longUrl += url + urlSeparator;
-			}
+			createdUrls[i] = urls[i].createUrl();
 		}
-		displayImage(longUrl, imageAware, options, listener, progressListener);
 	}
 
 	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
@@ -264,75 +259,6 @@ public class ImageLoader
 	public void displayImage(String[] urls, ImageView imageAware)
 	{
 		displayImage(urls, imageAware, null, null, null);
-	}
-
-	public void loadImage(String[] uris, ImageSize targetImageSize, DisplayImageOptions options,
-	                      ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
-	{
-		String longUrl = "";
-		for (String url : uris)
-		{
-			if (!failedDownloads.contains(url))
-			{
-				longUrl += url + urlSeparator;
-			}
-		}
-		loadImage(longUrl, targetImageSize, options, listener, progressListener);
-	}
-
-	public void loadImage(String[] uris, ImageSize targetImageSize, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		loadImage(uris, targetImageSize, options, listener, null);
-	}
-
-	public void loadImage(String[] uris, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		loadImage(uris, null, options, listener, null);
-	}
-
-	public void loadImage(String[] uris, ImageSize targetImageSize, ImageLoadingListener listener)
-	{
-		loadImage(uris, targetImageSize, null, listener, null);
-	}
-
-	public void loadImage(String[] uris, ImageLoadingListener listener)
-	{
-		loadImage(uris, null, null, listener, null);
-	}
-
-	public void loadImage(ImageServiceOptions[] uris, ImageSize targetImageSize, DisplayImageOptions options,
-	                      ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
-	{
-		String longUrl = "";
-		for (ImageServiceOptions image : uris)
-		{
-			String url = image.createUrl();
-			if (!failedDownloads.contains(url))
-			{
-				longUrl += url + urlSeparator;
-			}
-		}
-		loadImage(longUrl, targetImageSize, options, listener, progressListener);
-	}
-
-	public void loadImage(ImageServiceOptions[] uris, ImageSize targetImageSize, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		loadImage(uris, targetImageSize, options, listener, null);
-	}
-
-	public void loadImage(ImageServiceOptions[] uris, DisplayImageOptions options, ImageLoadingListener listener)
-	{
-		loadImage(uris, null, options, listener, null);
-	}
-
-	public void loadImage(ImageServiceOptions[] uris, ImageSize targetImageSize, ImageLoadingListener listener)
-	{
-		loadImage(uris, targetImageSize, null, listener, null);
-	}
-
-	public void loadImage(ImageServiceOptions[] uris, ImageLoadingListener listener)
-	{
-		loadImage(uris, null, null, listener, null);
 	}
 
 	/**

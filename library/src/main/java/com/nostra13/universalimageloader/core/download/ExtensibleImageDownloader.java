@@ -90,23 +90,15 @@ public class ExtensibleImageDownloader implements ImageDownloader
 	@Override
 	public InputStream getStream(String imageUri, Object extra) throws IOException
 	{
-		String[] urls = imageUri.split(ImageLoader.getInstance().getUrlSeparator());
 		InputStream is = null;
-		for (String url : urls)
+		String schema = imageUri.split(":")[0];
+		if (mHandlers.containsKey(schema))
 		{
-			String schema = url.split(":")[0];
-			if (mHandlers.containsKey(schema))
-			{
-				is = mHandlers.get(schema).getStreamForPath(context, url, extra, connectTimeout, readTimeout);
-			}
-			if (is != null)
-			{
-				break;
-			}
-			else
-			{
-				ImageLoader.getInstance().addFailedDownload(url);
-			}
+			is = mHandlers.get(schema).getStreamForPath(context, imageUri, extra, connectTimeout, readTimeout);
+		}
+		else
+		{
+			ImageLoader.getInstance().addFailedDownload(imageUri);
 		}
 		return is;
 	}
