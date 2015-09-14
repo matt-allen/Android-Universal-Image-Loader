@@ -202,27 +202,29 @@ public class ImageLoader
 		displayImage(urlCreator.createUrl(), imageAware, null, null, null);
 	}
 
-	public void displayImage(ImageServiceOptions[] urlCreators, final ImageView imageAware, final ImageLoadingListener listener,
+	public void displayImage(String[] urls, final ImageView imageAware, final ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
-		for (ImageServiceOptions creator : urlCreators)
+		final ImageAware imageAwareView = new ImageViewAware(imageAware);
+		for (int i = 0; i < urls.length; i++)
 		{
-//			if (TextUtils.isEmpty(creator.createUrl()))
-//			{
-//				engine.cancelDisplayTaskFor(imageAware);
-//				listener.onLoadingStarted(uri, imageAware.getWrappedView());
-//				if (options.shouldShowImageForEmptyUri())
-//				{
-//					imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
-//				}
-//				else
-//				{
-//					imageAware.setImageDrawable(null);
-//				}
-//				listener.onLoadingComplete(uri, imageAware.getWrappedView(), null);
-//				return;
-//			}
-			loadImage(creator.createUrl(), null, options, new ImageLoadingListener()
+			String url = urls[i];
+			if (TextUtils.isEmpty(url) && i == urls.length - 1)
+			{
+				engine.cancelDisplayTaskFor(imageAwareView);
+				listener.onLoadingStarted(url, imageAwareView.getWrappedView());
+				if (options.shouldShowImageForEmptyUri())
+				{
+					imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
+				}
+				else
+				{
+					imageAware.setImageDrawable(null);
+				}
+				listener.onLoadingComplete(url, imageAwareView.getWrappedView(), null);
+				return;
+			}
+			loadImage(url, null, options, new ImageLoadingListener()
 			{
 				@Override
 				public void onLoadingStarted(String imageUri, View view)
@@ -240,7 +242,7 @@ public class ImageLoader
 				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage)
 				{
 					listener.onLoadingComplete(imageUri, view, loadedImage);
-					imageAware.setImageBitmap(loadedImage);
+					imageAwareView.setImageBitmap(loadedImage);
 					return;
 				}
 
@@ -268,10 +270,14 @@ public class ImageLoader
 		displayImage(urlCreators, imageAware, null, null, null);
 	}
 
-	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener,
+	public void displayImage(ImageServiceOptions[] urls, ImageView imageAware, ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
-		// TODO
+		String[] createdUrls = new String[urls.length];
+		for (int i = 0; i < urls.length; i++)
+		{
+			createdUrls[i] = urls[i].createUrl();
+		}
 	}
 
 	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
@@ -287,6 +293,11 @@ public class ImageLoader
 	public void displayImage(String[] urls, ImageView imageAware, DisplayImageOptions options)
 	{
 		displayImage(urls, imageAware, null, options, null);
+	}
+
+	public void displayImage(String[] urls, ImageView imageAware)
+	{
+		displayImage(urls, imageAware, null, null, null);
 	}
 
 	/**
