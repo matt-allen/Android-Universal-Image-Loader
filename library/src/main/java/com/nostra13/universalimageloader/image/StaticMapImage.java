@@ -66,7 +66,7 @@ public class StaticMapImage implements ImageServiceOptions
 		{
 			for (Marker marker : markers)
 			{
-				url += marker.createUrl();
+				if (marker != null) url += marker.createUrl();
 			}
 		}
 		return url;
@@ -99,7 +99,11 @@ public class StaticMapImage implements ImageServiceOptions
 		@Override
 		public String createUrl()
 		{
-			String base = "&markers=color:" + colour;
+			String base = "&markers=";
+			if (!TextUtils.isEmpty(colour))
+			{
+				base += "color:" + colour;
+			}
 			if (!TextUtils.isEmpty(label))
 			{
 				base += "%7Clabel:" + label.substring(0, 1);
@@ -152,7 +156,7 @@ public class StaticMapImage implements ImageServiceOptions
 
 		public Builder addMarker(Marker marker)
 		{
-			markers.add(marker);
+			if (markers != null) markers.add(marker);
 			return this;
 		}
 

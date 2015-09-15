@@ -62,23 +62,31 @@ public class FlickrSchemeHandler extends SchemeHandler
 				}
 
 				Gson builder = new GsonBuilder().create();
-				JsonElement json = new JsonParser().parse(stringBuilder.toString()).getAsJsonObject().get("photos").getAsJsonObject().get("photo");
-
-				String imageUrl;
-				ArrayList<Photo> photos = builder.fromJson(json, new TypeToken<ArrayList<Photo>>()
+				JsonElement json;
+				try
 				{
-				}.getType());
+					json = new JsonParser().parse(stringBuilder.toString()).getAsJsonObject().get("photos").getAsJsonObject().get("photo");
+					String imageUrl;
+					ArrayList<Photo> photos = builder.fromJson(json, new TypeToken<ArrayList<Photo>>()
+					{
+					}.getType());
 
-				if (photos.size() > 0)
-				{
-					imageUrl = photos.get(0).getUrl();
+					if (photos.size() > 0)
+					{
+						imageUrl = photos.get(0).getUrl();
+					}
+					else
+					{
+						return null;
+					}
+
+					return getStreamFromNetwork(imageUrl, connectTimeout, readTimeout, optionForDownloader);
 				}
-				else
+				catch (Exception e)
 				{
+					e.printStackTrace();
 					return null;
 				}
-
-				return getStreamFromNetwork(imageUrl, connectTimeout, readTimeout, optionForDownloader);
 			}
 			catch (IOException e)
 			{
