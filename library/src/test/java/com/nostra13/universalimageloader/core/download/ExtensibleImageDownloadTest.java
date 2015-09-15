@@ -2,7 +2,6 @@ package com.nostra13.universalimageloader.core.download;
 
 import android.app.Activity;
 
-import com.cube.imageloader.BuildConfig;
 import com.nostra13.universalimageloader.core.helper.FlickrServiceHelper;
 import com.nostra13.universalimageloader.image.FlickrImage;
 import com.nostra13.universalimageloader.image.GravatarImage;
@@ -29,7 +28,7 @@ import static org.junit.Assert.fail;
  * @project UniversalImageLoader
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(manifest = Config.NONE, sdk = 21)
 public class ExtensibleImageDownloadTest
 {
 	private Activity activity;
@@ -48,6 +47,7 @@ public class ExtensibleImageDownloadTest
 			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
 			FlickrServiceHelper.setApiKey("ff09527c98fd10a0fd81e62986cbbc8d");
 			FlickrImage image = new FlickrImage(50.724057, -1.906289);
+			System.out.println("Getting image for address: "+image.createUrl());
 			InputStream stream = downloader.getStream(image.createUrl(), null);
 			assertNotNull(stream);
 			assertTrue(stream.read() >= 0);
@@ -66,6 +66,7 @@ public class ExtensibleImageDownloadTest
 		{
 			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
 			SimpleTextImage image = new SimpleTextImage("Sample Name");
+			System.out.println("Getting image for address: "+image.createUrl());
 			InputStream stream = downloader.getStream(image.createUrl(), null);
 			assertNotNull(stream);
 			assertTrue(stream.read() >= 0);
@@ -84,6 +85,7 @@ public class ExtensibleImageDownloadTest
 		{
 			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
 			GravatarImage image = new GravatarImage("mattallen092@gmail.com");
+			System.out.println("Getting image for address: "+image.createUrl());
 			InputStream stream = downloader.getStream(image.createUrl(), null);
 			assertNotNull(stream);
 			assertTrue(stream.read() >= 0);
@@ -102,6 +104,7 @@ public class ExtensibleImageDownloadTest
 		{
 			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
 			GravatarImage image = new GravatarImage("mattallen092@thiswontwork.com");
+			System.out.println("Getting image for address: "+image.createUrl());
 			InputStream stream = downloader.getStream(image.createUrl(), null);
 			assertNull(stream);
 		}
