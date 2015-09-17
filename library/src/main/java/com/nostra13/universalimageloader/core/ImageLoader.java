@@ -213,7 +213,7 @@ public class ImageLoader
 			listener.onLoadingComplete(url, imageAwareView.getWrappedView(), null);
 			return;
 		}
-		loadImage(url, null, options, loadingListener);
+		loadImage(url, null, options, loadingListener, progressListener);
 	}
 
 	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
