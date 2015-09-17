@@ -36,6 +36,7 @@ public class MultipleImageLoadingListener implements ImageLoadingListener
 	@Override
 	public void onLoadingFailed(String imageUri, View view, FailReason failReason)
 	{
+		ImageLoader.getInstance().addFailedDownload(imageUri);
 		if (topLevelListener != null) topLevelListener.onLoadingFailed(imageUri, view, failReason);
 		currentIndex++;
 		if (urls.length > currentIndex)
