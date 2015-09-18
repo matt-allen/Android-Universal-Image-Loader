@@ -267,6 +267,33 @@ public class ImageLoader
 		displayImage(urls, imageAware, null, null, null);
 	}
 
+	public void displayImageWithTransition(String uri, ImageView view)
+	{
+		displayImageWithTransition(uri, view, null, null, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uri, view, options, null, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uri, view, options, listener, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uri, view, null, listener, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		ImageViewAware imageViewAware = new ImageViewAware(view);
+		imageViewAware.setUsingColourFilterTransition(true);
+		displayImage(uri, imageViewAware, options, listener, progressListener);
+	}
+
 	/**
 	 * Adds display image task to execution pool. Image will be set to ImageAware when it's turn. <br/>
 	 * Default {@linkplain DisplayImageOptions display image options} from {@linkplain ImageLoaderConfiguration
