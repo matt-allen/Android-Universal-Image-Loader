@@ -193,15 +193,21 @@ public class ImageLoader
 	}
 
 	public void displayImage(String[] urls, final ImageView imageAware, final ImageLoadingListener listener,
-	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
+							 DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
 		final ImageAware imageAwareView = new ImageViewAware(imageAware);
-		MultipleImageLoadingListener loadingListener = new MultipleImageLoadingListener(imageAwareView, listener, urls);
+		displayImage(urls, imageAwareView, listener, options, progressListener);
+	}
+
+	public void displayImage(String[] urls, final ImageAware imageAware, final ImageLoadingListener listener,
+	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
+	{
+		MultipleImageLoadingListener loadingListener = new MultipleImageLoadingListener(imageAware, listener, urls);
 		String url = urls[0];
 		if (urls.length == 0)
 		{
-			engine.cancelDisplayTaskFor(imageAwareView);
-			listener.onLoadingStarted(url, imageAwareView.getWrappedView());
+			engine.cancelDisplayTaskFor(imageAware);
+			listener.onLoadingStarted(url, imageAware.getWrappedView());
 			if (options != null && options.shouldShowImageForEmptyUri())
 			{
 				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
@@ -210,7 +216,7 @@ public class ImageLoader
 			{
 				imageAware.setImageDrawable(null);
 			}
-			listener.onLoadingComplete(url, imageAwareView.getWrappedView(), null);
+			listener.onLoadingComplete(url, imageAware.getWrappedView(), null);
 			return;
 		}
 		loadImage(url, null, options, loadingListener, progressListener);
