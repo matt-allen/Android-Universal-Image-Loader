@@ -245,6 +245,7 @@ public class ImageLoader
 		{
 			createdUrls[i] = urls[i].createUrl();
 		}
+		displayImage(createdUrls, imageAware, listener, options, progressListener);
 	}
 
 	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
@@ -292,6 +293,79 @@ public class ImageLoader
 		ImageViewAware imageViewAware = new ImageViewAware(view);
 		imageViewAware.setUsingColourFilterTransition(true);
 		displayImage(uri, imageViewAware, options, listener, progressListener);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		ImageViewAware view = new ImageViewAware(imageView);
+		view.setUsingColourFilterTransition(true);
+		displayImage(uris, view, listener, options, progressListener);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uris, imageView, options, null, null);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView)
+	{
+		displayImageWithTransition(uris, imageView, null, null, null);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uris, imageView, null, listener, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView, DisplayImageOptions options,
+										   ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		ImageViewAware view = new ImageViewAware(imageView);
+		view.setUsingColourFilterTransition(true);
+		displayImage(uriCreator.createUrl(), view, options, listener, progressListener);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uriCreator, imageView, null, listener, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uriCreator, imageView, options, null, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView)
+	{
+		displayImageWithTransition(uriCreator, imageView, null, null, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView, DisplayImageOptions options,
+										   ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String[] createdUrls = new String[uriCreators.length];
+		for (int i = 0; i < uriCreators.length; i++)
+		{
+			createdUrls[i] = uriCreators[i].createUrl();
+		}
+		ImageViewAware view = new ImageViewAware(imageView);
+		view.setUsingColourFilterTransition(true);
+		displayImage(createdUrls, view, listener, options, progressListener);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uriCreators, imageView, options, null, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uriCreators, imageView, null, listener, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView)
+	{
+		displayImageWithTransition(uriCreators, imageView, null, null, null);
 	}
 
 	/**
