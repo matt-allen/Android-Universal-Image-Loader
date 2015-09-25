@@ -39,6 +39,7 @@ import java.lang.reflect.Field;
  */
 public class ImageViewAware extends ViewAware
 {
+	private static final int ANIMATION_TIME = 1400;
 	protected boolean usingColourTransitionFilter = false;
 	/**
 	 * Constructor. <br />
@@ -137,7 +138,7 @@ public class ImageViewAware extends ViewAware
 					drawable.setColorFilter(filter);
 				}
 			});
-			animator.setDuration(800);
+			animator.setDuration(ANIMATION_TIME);
 			animator.start();
 		}
 		if (drawable instanceof AnimationDrawable) {
@@ -150,9 +151,23 @@ public class ImageViewAware extends ViewAware
 	{
 		final Drawable bitmapDrawable = new BitmapDrawable(view.getResources(), bitmap);
 		((ImageView) view).setImageDrawable(bitmapDrawable);
-		AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator();
-		final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
-		bitmapDrawable.setColorFilter(filter);
+		if (usingColourTransitionFilter)
+		{
+			AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator();
+			final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
+			bitmapDrawable.setColorFilter(filter);
+			ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
+			animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+			{
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation)
+				{
+					bitmapDrawable.setColorFilter(filter);
+				}
+			});
+			animator.setDuration(ANIMATION_TIME);
+			animator.start();
+		}
 	}
 
 	private static int getImageViewFieldValue(Object object, String fieldName) {
