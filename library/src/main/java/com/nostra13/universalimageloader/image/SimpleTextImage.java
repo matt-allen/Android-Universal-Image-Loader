@@ -41,24 +41,27 @@ public class SimpleTextImage implements ImageServiceOptions
 	public static final int COLOUR_BLUE = -14575885;
 	public static final int COLOUR_TEAL = -16738680;
 	public static final int COLOUR_DEEP_ORANGE = -43230;
-	public static final int COLOUR_RANDOM = -1;
+	public static final int COLOUR_WHITE = -1;
+	public static final int COLOUR_RANDOM = 0;
 
 	private String text;
 	private boolean useInitials = true;
 	private int typeFace;
-	private int colour;
+	private int bgColour;
+	private int textColour;
 
-	public SimpleTextImage(@NonNull String text, int colour, boolean useInitials, @Typeface int typeFace)
+	public SimpleTextImage(@NonNull String text, int bgColour, int textColour, boolean useInitials, @Typeface int typeFace)
 	{
 		this.text = text;
 		this.useInitials = useInitials;
 		this.typeFace = typeFace;
-		this.colour = colour;
+		this.bgColour = bgColour;
+		this.textColour = textColour;
 	}
 
 	public SimpleTextImage(String text, boolean useInitials)
 	{
-		this(text, COLOUR_RANDOM, useInitials, TYPEFACE_THIN);
+		this(text, COLOUR_RANDOM, COLOUR_WHITE, useInitials, TYPEFACE_THIN);
 	}
 
 	public SimpleTextImage(String text)
@@ -66,9 +69,9 @@ public class SimpleTextImage implements ImageServiceOptions
 		this(text, true);
 	}
 
-	public SimpleTextImage(String text, int colour)
+	public SimpleTextImage(String text, int colour, int textColour)
 	{
-		this(text, colour, true, TYPEFACE_THIN);
+		this(text, colour, textColour, true, TYPEFACE_THIN);
 	}
 
 	public SimpleTextImage()
@@ -92,15 +95,20 @@ public class SimpleTextImage implements ImageServiceOptions
 		return typeFace;
 	}
 
+	public int getTextColour()
+	{
+		return textColour;
+	}
+
 	public int getColour()
 	{
-		return colour;
+		return bgColour;
 	}
 
 	public static int getRandomColour()
 	{
 		int[] colours = new int[]{COLOUR_RED, COLOUR_PINK, COLOUR_PURPLE, COLOUR_DEEP_PURPLE,
-				COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE, COLOUR_RANDOM};
+				COLOUR_INDIGO, COLOUR_BLUE, COLOUR_TEAL, COLOUR_DEEP_ORANGE};
 		return colours[new Random().nextInt(colours.length-1)];
 	}
 
@@ -123,8 +131,8 @@ public class SimpleTextImage implements ImageServiceOptions
 	@Override
 	public String createUrl()
 	{
-		return String.format("text://%s/%s/%s/%s", text, String.valueOf(colour),
-				(useInitials ? "1" : "0"), String.valueOf(typeFace));
+		return String.format("text://%s/%s/%s/%s/%s", text, String.valueOf(bgColour),
+				(useInitials ? "1" : "0"), String.valueOf(typeFace), String.valueOf(textColour));
 	}
 
 	@Override
@@ -132,12 +140,13 @@ public class SimpleTextImage implements ImageServiceOptions
 	{
 		String[] string = url.split("/");
 		text = string[2];
-		colour = Integer.parseInt(string[3]);
+		bgColour = Integer.parseInt(string[3]);
 		String initials = string[4];
 		if (initials.equalsIgnoreCase("1"))
 		{
 			useInitials = true;
 		}
 		typeFace = Integer.parseInt(string[5]);
+		textColour = Integer.parseInt(string[6]);
 	}
 }
