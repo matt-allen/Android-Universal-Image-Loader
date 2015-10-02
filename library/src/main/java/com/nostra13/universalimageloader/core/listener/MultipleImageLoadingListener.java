@@ -41,7 +41,7 @@ public class MultipleImageLoadingListener implements ImageLoadingListener
 		currentIndex++;
 		if (urls.length > currentIndex)
 		{
-			ImageLoader.getInstance().loadImage(urls[currentIndex], this);
+			ImageLoader.getInstance().displayImage(urls[currentIndex], imageView, this);
 		}
 	}
 

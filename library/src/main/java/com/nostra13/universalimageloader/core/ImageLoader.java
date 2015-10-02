@@ -199,7 +199,7 @@ public class ImageLoader
 		displayImage(urls, imageAwareView, listener, options, progressListener);
 	}
 
-	public void displayImage(String[] urls, final ImageAware imageAware, final ImageLoadingListener listener,
+	public void displayImage(String[] urls, ImageAware imageAware, final ImageLoadingListener listener,
 	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
 		MultipleImageLoadingListener loadingListener = new MultipleImageLoadingListener(imageAware, listener, urls);
