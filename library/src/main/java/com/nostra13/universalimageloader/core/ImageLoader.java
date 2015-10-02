@@ -494,7 +494,7 @@ public class ImageLoader
 			{
 				imageAware.setImageDrawable(null);
 			}
-			listener.onLoadingComplete(uri, imageAware.getWrappedView(), null);
+			listener.onLoadingFailed(uri, imageAware.getWrappedView(), null);
 			return;
 		}
 
