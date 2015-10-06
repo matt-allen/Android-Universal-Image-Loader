@@ -1,5 +1,6 @@
 package com.nostra13.universalimageloader.sample.fragment.fallback;
 
+import com.nostra13.universalimageloader.image.SimpleTextImage;
 import com.nostra13.universalimageloader.sample.recyclerview.BaseAdapter;
 import com.nostra13.universalimageloader.sample.recyclerview.StringArrayAdapter;
 
@@ -23,6 +24,63 @@ public class FallbackStringArrayFragment extends BaseFallbackImageFragment<Strin
 	protected List<String[]> getDataSet()
 	{
 		List<String[]> strings = new ArrayList<>();
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
+		strings.add(new String[]{"", new SimpleTextImage("Person", SimpleTextImage.COLOUR_WHITE, SimpleTextImage.COLOUR_RED).createUrl()});
 		strings.add(new String[]{
 				"https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
 				"https://lh3.googleusercontent.com/-rrFnVC8xQEg/URqufdrLBaI/AAAAAAAAAbs/s69WYy_fl1E/s1024/Chess.jpg"

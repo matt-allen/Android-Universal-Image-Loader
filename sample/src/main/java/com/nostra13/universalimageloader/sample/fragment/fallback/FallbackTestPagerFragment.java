@@ -9,7 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.sample.R;
 
 /**
@@ -19,6 +21,7 @@ import com.nostra13.universalimageloader.sample.R;
  */
 public class FallbackTestPagerFragment extends Fragment
 {
+	private static final String HERO_IMAGE = "http://www.leweekenduk.com/wp-content/gallery/harbour-view-2/ramsgate-harbour-and-boats.jpg";
 	private ViewPager mViewPager;
 	private TabLayout mTabLayout;
 
@@ -36,6 +39,7 @@ public class FallbackTestPagerFragment extends Fragment
 	public void onActivityCreated(@Nullable Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		ImageLoader.getInstance().displayImageWithTransition(HERO_IMAGE, ((ImageView) getView().findViewById(R.id.header_image)));
 		mViewPager.setAdapter(getAdapter());
 		mTabLayout.setupWithViewPager(mViewPager);
 	}

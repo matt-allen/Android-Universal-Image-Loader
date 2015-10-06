@@ -30,7 +30,7 @@ public class FallbackImageServiceFragment extends BaseFallbackImageFragment<Imag
 		data.add(new GravatarImage("matt.allen@3sidedcube.com"));
 		data.add(new StaticMapImage(51.101797, -1.219482));
 		data.add(new StaticMapImage(51.813709, -1.285400));
-		data.add(new SimpleTextImage("Tom Jones", SimpleTextImage.COLOUR_DEEP_ORANGE));
+		data.add(new SimpleTextImage("Tom Jones", SimpleTextImage.COLOUR_DEEP_ORANGE, SimpleTextImage.COLOUR_WHITE));
 		data.add(new StaticMapImage.Builder()
 				.latitude(51.813709)
 				.longitude(-1.285400)

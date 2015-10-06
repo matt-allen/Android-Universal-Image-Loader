@@ -15,11 +15,16 @@
  *******************************************************************************/
 package com.nostra13.universalimageloader.core.imageaware;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.nostra13.universalimageloader.core.assist.ViewScaleType;
 import com.nostra13.universalimageloader.utils.L;
 
@@ -32,8 +37,10 @@ import java.lang.reflect.Field;
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  * @since 1.9.0
  */
-public class ImageViewAware extends ViewAware {
-
+public class ImageViewAware extends ViewAware
+{
+	private static final int ANIMATION_TIME = 1400;
+	protected boolean usingColourTransitionFilter = false;
 	/**
 	 * Constructor. <br />
 	 * References {@link #ImageViewAware(android.widget.ImageView, boolean) ImageViewAware(imageView, true)}.
@@ -114,16 +121,53 @@ public class ImageViewAware extends ViewAware {
 	}
 
 	@Override
-	protected void setImageDrawableInto(Drawable drawable, View view) {
+	protected void setImageDrawableInto(final Drawable drawable, View view)
+	{
 		((ImageView) view).setImageDrawable(drawable);
+		if (usingColourTransitionFilter)
+		{
+			AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator();
+			final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
+			drawable.setColorFilter(filter);
+			ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
+			animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+			{
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation)
+				{
+					drawable.setColorFilter(filter);
+				}
+			});
+			animator.setDuration(ANIMATION_TIME);
+			animator.start();
+		}
 		if (drawable instanceof AnimationDrawable) {
 			((AnimationDrawable)drawable).start();
 		}
 	}
 
 	@Override
-	protected void setImageBitmapInto(Bitmap bitmap, View view) {
-		((ImageView) view).setImageBitmap(bitmap);
+	protected void setImageBitmapInto(Bitmap bitmap, View view)
+	{
+		final Drawable bitmapDrawable = new BitmapDrawable(view.getResources(), bitmap);
+		((ImageView) view).setImageDrawable(bitmapDrawable);
+		if (usingColourTransitionFilter)
+		{
+			AlphaSatColorMatrixEvaluator evaluator = new AlphaSatColorMatrixEvaluator();
+			final ColorMatrixColorFilter filter = new ColorMatrixColorFilter(evaluator.getColorMatrix());
+			bitmapDrawable.setColorFilter(filter);
+			ObjectAnimator animator = ObjectAnimator.ofObject(filter, "colorMatrix", evaluator, evaluator.getColorMatrix());
+			animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+			{
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation)
+				{
+					bitmapDrawable.setColorFilter(filter);
+				}
+			});
+			animator.setDuration(ANIMATION_TIME);
+			animator.start();
+		}
 	}
 
 	private static int getImageViewFieldValue(Object object, String fieldName) {
@@ -139,5 +183,15 @@ public class ImageViewAware extends ViewAware {
 			L.e(e);
 		}
 		return value;
+	}
+
+	/**
+	 * Boolean switch to determine if the image should be using a
+	 * transition or not when being populated into the view
+	 * @param usingTransition
+	 */
+	public void setUsingColourFilterTransition(boolean usingTransition)
+	{
+		this.usingColourTransitionFilter = usingTransition;
 	}
 }

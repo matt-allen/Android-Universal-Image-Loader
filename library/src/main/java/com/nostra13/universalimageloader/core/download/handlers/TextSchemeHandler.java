@@ -3,7 +3,6 @@ package com.nostra13.universalimageloader.core.download.handlers;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
@@ -34,8 +33,8 @@ public class TextSchemeHandler extends SchemeHandler
 		TextView textView = getTextView(context);
 		String text = image.getText();
 		textView.setText(image.isUsingInitials() ? image.getInitials() : text);
-		int colour = image.getColour();
-		textView.setBackgroundColor(colour == -1 ? SimpleTextImage.getRandomColour() : colour);
+		textView.setBackgroundColor(image.getColour() == SimpleTextImage.COLOUR_RANDOM ? SimpleTextImage.getRandomColour() : image.getColour());
+		textView.setTextColor(image.getTextColour() == SimpleTextImage.COLOUR_RANDOM ? SimpleTextImage.getRandomColour() : image.getTextColour());
 		switch (image.getTypeFace())
 		{
 			case SimpleTextImage.TYPEFACE_MONOSPACE:
@@ -72,7 +71,6 @@ public class TextSchemeHandler extends SchemeHandler
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 220);
 		textView.requestLayout();
 		textView.setPadding(16, 46, 16, 16);
-		textView.setTextColor(Color.WHITE);
 		return textView;
 	}
 }

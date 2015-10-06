@@ -37,7 +37,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
         </receiver>
-		<activity android:name=".activity.FallbackTestActivity"/>
+		<activity android:name=".activity.FallbackTestActivity" android:theme="@style/BaseTheme.NoActionBar"/>
     </application>
 
 </manifest>

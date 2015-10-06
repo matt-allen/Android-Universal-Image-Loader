@@ -193,15 +193,21 @@ public class ImageLoader
 	}
 
 	public void displayImage(String[] urls, final ImageView imageAware, final ImageLoadingListener listener,
-	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
+							 DisplayImageOptions options, ImageLoadingProgressListener progressListener)
 	{
 		final ImageAware imageAwareView = new ImageViewAware(imageAware);
-		MultipleImageLoadingListener loadingListener = new MultipleImageLoadingListener(imageAwareView, listener, urls);
+		displayImage(urls, imageAwareView, listener, options, progressListener);
+	}
+
+	public void displayImage(String[] urls, ImageAware imageAware, final ImageLoadingListener listener,
+	                         DisplayImageOptions options, ImageLoadingProgressListener progressListener)
+	{
+		MultipleImageLoadingListener loadingListener = new MultipleImageLoadingListener(imageAware, listener, urls);
 		String url = urls[0];
 		if (urls.length == 0)
 		{
-			engine.cancelDisplayTaskFor(imageAwareView);
-			listener.onLoadingStarted(url, imageAwareView.getWrappedView());
+			engine.cancelDisplayTaskFor(imageAware);
+			listener.onLoadingStarted(url, imageAware.getWrappedView());
 			if (options != null && options.shouldShowImageForEmptyUri())
 			{
 				imageAware.setImageDrawable(options.getImageForEmptyUri(configuration.resources));
@@ -210,10 +216,10 @@ public class ImageLoader
 			{
 				imageAware.setImageDrawable(null);
 			}
-			listener.onLoadingComplete(url, imageAwareView.getWrappedView(), null);
+			listener.onLoadingComplete(url, imageAware.getWrappedView(), null);
 			return;
 		}
-		loadImage(url, null, options, loadingListener);
+		displayImage(url, imageAware, options, loadingListener, progressListener);
 	}
 
 	public void displayImage(ImageServiceOptions[] urlCreators, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
@@ -239,6 +245,7 @@ public class ImageLoader
 		{
 			createdUrls[i] = urls[i].createUrl();
 		}
+		displayImage(createdUrls, imageAware, listener, options, progressListener);
 	}
 
 	public void displayImage(String[] urls, ImageView imageAware, ImageLoadingListener listener, DisplayImageOptions options)
@@ -259,6 +266,106 @@ public class ImageLoader
 	public void displayImage(String[] urls, ImageView imageAware)
 	{
 		displayImage(urls, imageAware, null, null, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view)
+	{
+		displayImageWithTransition(uri, view, null, null, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uri, view, options, null, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, DisplayImageOptions options, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uri, view, options, listener, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uri, view, null, listener, null);
+	}
+
+	public void displayImageWithTransition(String uri, ImageView view, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		ImageViewAware imageViewAware = new ImageViewAware(view);
+		imageViewAware.setUsingColourFilterTransition(true);
+		displayImage(uri, imageViewAware, options, listener, progressListener);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView, DisplayImageOptions options, ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		ImageViewAware view = new ImageViewAware(imageView);
+		view.setUsingColourFilterTransition(true);
+		displayImage(uris, view, listener, options, progressListener);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uris, imageView, options, null, null);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView)
+	{
+		displayImageWithTransition(uris, imageView, null, null, null);
+	}
+
+	public void displayImageWithTransition(String[] uris, ImageView imageView, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uris, imageView, null, listener, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView, DisplayImageOptions options,
+										   ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		ImageViewAware view = new ImageViewAware(imageView);
+		view.setUsingColourFilterTransition(true);
+		displayImage(uriCreator.createUrl(), view, options, listener, progressListener);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uriCreator, imageView, null, listener, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uriCreator, imageView, options, null, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions uriCreator, ImageView imageView)
+	{
+		displayImageWithTransition(uriCreator, imageView, null, null, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView, DisplayImageOptions options,
+										   ImageLoadingListener listener, ImageLoadingProgressListener progressListener)
+	{
+		String[] createdUrls = new String[uriCreators.length];
+		for (int i = 0; i < uriCreators.length; i++)
+		{
+			createdUrls[i] = uriCreators[i].createUrl();
+		}
+		ImageViewAware view = new ImageViewAware(imageView);
+		view.setUsingColourFilterTransition(true);
+		displayImage(createdUrls, view, listener, options, progressListener);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView, DisplayImageOptions options)
+	{
+		displayImageWithTransition(uriCreators, imageView, options, null, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView, ImageLoadingListener listener)
+	{
+		displayImageWithTransition(uriCreators, imageView, null, listener, null);
+	}
+
+	public void displayImageWithTransition(ImageServiceOptions[] uriCreators, ImageView imageView)
+	{
+		displayImageWithTransition(uriCreators, imageView, null, null, null);
 	}
 
 	/**
@@ -387,7 +494,7 @@ public class ImageLoader
 			{
 				imageAware.setImageDrawable(null);
 			}
-			listener.onLoadingComplete(uri, imageAware.getWrappedView(), null);
+			listener.onLoadingFailed(uri, imageAware.getWrappedView(), null);
 			return;
 		}
 

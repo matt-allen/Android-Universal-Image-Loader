@@ -8,6 +8,26 @@
 		<item name="android:textColor">@color/text_primary</item>
 	</style>
 
+	<style name="BaseTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+		<item name="colorPrimary">@color/primary</item>
+		<item name="colorPrimaryDark">@color/primary_dark</item>
+		<item name="colorAccent">@color/accent</item>
+		<item name="android:textColor">@color/text_primary</item>
+	</style>
+
     <style name="ProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal"/>
+
+	<style name="HeroTitle" parent="TextAppearance.AppCompat.Title">
+		<item name="android:textColor">@android:color/white</item>
+	</style>
+
+	<style name="HeroTitle.Expanded" parent="HeroTitle">
+		<item name="android:textSize">38sp</item>
+	</style>
+
+	<style name="HeroTitle.Collapsed" parent="HeroTitle">
+		<item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
+		<item name="android:textStyle">bold</item>
+	</style>
 
 </resources>
