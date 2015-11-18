@@ -87,6 +87,11 @@ public class ExtensibleImageDownloader implements ImageDownloader
 		mHandlers = handlers;
 	}
 
+	public Map<String, SchemeHandler> getHandlers()
+	{
+		return mHandlers;
+	}
+
 	@Override
 	public InputStream getStream(String imageUri, Object extra) throws IOException
 	{

@@ -46,6 +46,7 @@ import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Singletone for image loading and displaying at {@link ImageView ImageViews}<br />
@@ -166,9 +167,23 @@ public class ImageLoader
 		}
 	}
 
+	public Map<String, SchemeHandler> getRegisteredSchemeHandlers()
+	{
+		if (configuration.downloader instanceof ExtensibleImageDownloader)
+		{
+			return ((ExtensibleImageDownloader) configuration.downloader).getHandlers();
+		}
+		return null;
+	}
+
 	public void addFailedDownload(String url)
 	{
 		failedDownloads.add(url);
+	}
+
+	public void clearFailedDownloads()
+	{
+		failedDownloads = new ArrayList<>();
 	}
 
 	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware, ImageLoadingListener listener,
