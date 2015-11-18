@@ -3,6 +3,7 @@ package com.nostra13.universalimageloader.core.download;
 import android.content.Context;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.download.handlers.AssetsSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.ContentSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.FileSchemeHandler;
@@ -66,6 +67,7 @@ public class ExtensibleImageDownloader implements ImageDownloader
 			mHandlers.put("https", http);
 			mHandlers.put("flickr", new FlickrSchemeHandler());
 			mHandlers.put("text", new TextSchemeHandler());
+			mHandlers.put("assets", new AssetsSchemeHandler());
 		}
 	}
 
