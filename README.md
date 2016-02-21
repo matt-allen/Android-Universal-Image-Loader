@@ -16,9 +16,10 @@ Big thanks go out to nostra13 for the base work on this library!
  * Listening loading process (including downloading progress)
  * Custom URI adoption through `SchemeHandler`
  * URI generation through interface
- * Flickr
- * Google Maps
- * Gravatar
+ * Flickr image
+ * Google Maps satellite image
+ * Gravatar image
+ * Twitter Profile image
  * Memory and thread performance improvements
 
 ## [Documentation](https://github.com/3sidedcube/Android-Universal-Image-Loader/wiki)
@@ -44,7 +45,7 @@ Big thanks go out to nostra13 for the base work on this library!
 ```
 **NOTE:** Use `drawable://` only if you really need it! Always **consider the native way** to load drawables - `ImageView.setImageResource(...)` instead of using of `ImageLoader`.
 
-### **New** Using Flickr:
+### (New) Using Flickr:
 Because of the way Flickr is accessed, you will need to set your API key and the Group ID you want to use. This is a very easy
 value to set, to set the API key:
 ``` java
@@ -58,7 +59,7 @@ To set your group Id (Optional):
 
 You can then create a flickr image by passing an instance of `FlickrImage` to `displayImage` or `loadImage`
 
-### **New** Image URI interface:
+### (New) Image URI interface:
 Now any Java object implementing the `ImageServiceOptions` can be used as an argument to the
 `displayImage` or `loadImage` methods on the ImageLoader interface. This allows for creation and
 deconstruction of an object with just a URI that would be handled with the ImageLoader features.
@@ -69,11 +70,13 @@ to be retrieved from a service. These are:
 - `FlickrImage`
 - `StaticMapsImage`
 - `SimpleTextImage`
+- `TwitterProfileImage`
 
 The names give an accurate description of what they're attempting to achieve. To use them, simply
-pass an instance of this object to the `displayImage` or `loadImage`.
+pass an instance of this object to the `displayImage` or `loadImage` (or instantiate the image and 
+call `createUrl()` to use in conjuction with other URI strings).
 
-### **New** Adding a new scheme handler:
+### (New) Adding a new scheme handler:
 The new downloading system provides the ability to add a new scheme to handle by only providing the
 logic for generating an `InputStream` for the path provided. To add a new handler, first create a new
 handler for the scheme with an object that extends `SchemeHandler`. This class will require you to
