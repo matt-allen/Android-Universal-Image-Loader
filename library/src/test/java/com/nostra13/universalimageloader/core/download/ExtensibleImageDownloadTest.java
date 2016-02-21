@@ -7,6 +7,7 @@ import com.nostra13.universalimageloader.image.FlickrImage;
 import com.nostra13.universalimageloader.image.GravatarImage;
 import com.nostra13.universalimageloader.image.SimpleTextImage;
 import com.nostra13.universalimageloader.image.StaticMapImage;
+import com.nostra13.universalimageloader.image.TwitterProfileImage;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.fail;
 
 /**
- * // TODO Add class description
+ * Test the scheme handlers that are added to the image downloader by default
  *
  * @author Matt Allen
  * @project UniversalImageLoader
@@ -182,6 +183,42 @@ public class ExtensibleImageDownloadTest
 				assertNotNull(stream);
 				assertTrue(stream.read() >= 0);
 			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testTwitterImageDownload()
+	{
+		try
+		{
+			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
+			TwitterProfileImage image = new TwitterProfileImage("@m_allen92");
+			System.out.println("Getting image for address: " + image.createUrl());
+			InputStream stream = downloader.getStream(image.createUrl(), null);
+			assertNotNull(stream);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testTwitterImageDownloadFail()
+	{
+		try
+		{
+			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
+			TwitterProfileImage image = new TwitterProfileImage("@m_allen92ffh9q8");
+			System.out.println("Getting image for address: " + image.createUrl());
+			InputStream stream = downloader.getStream(image.createUrl(), null);
+			assertNotNull(stream);
 		}
 		catch (Exception e)
 		{
