@@ -44,8 +44,6 @@ import com.nostra13.universalimageloader.utils.ImageSizeUtils;
 import com.nostra13.universalimageloader.utils.L;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,9 +68,6 @@ public class ImageLoader
 
 	private ImageLoaderConfiguration configuration;
 	private ImageLoaderEngine engine;
-
-	private List<String> failedDownloads = new ArrayList<>();
-
 	private ImageLoadingListener defaultListener = new SimpleImageLoadingListener();
 
 	private volatile static ImageLoader instance;
@@ -174,16 +169,6 @@ public class ImageLoader
 			return ((ExtensibleImageDownloader) configuration.downloader).getHandlers();
 		}
 		return null;
-	}
-
-	public void addFailedDownload(String url)
-	{
-		failedDownloads.add(url);
-	}
-
-	public void clearFailedDownloads()
-	{
-		failedDownloads = new ArrayList<>();
 	}
 
 	public void displayImage(ImageServiceOptions urlCreator, ImageView imageAware, ImageLoadingListener listener,

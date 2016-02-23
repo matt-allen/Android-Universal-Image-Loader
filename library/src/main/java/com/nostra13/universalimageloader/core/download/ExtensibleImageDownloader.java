@@ -2,7 +2,6 @@ package com.nostra13.universalimageloader.core.download;
 
 import android.content.Context;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.download.handlers.AssetsSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.ContentSchemeHandler;
 import com.nostra13.universalimageloader.core.download.handlers.DrawableSchemeHandler;
@@ -102,10 +101,6 @@ public class ExtensibleImageDownloader implements ImageDownloader
 		if (mHandlers.containsKey(schema))
 		{
 			is = mHandlers.get(schema).getStreamForPath(context, imageUri, extra, connectTimeout, readTimeout);
-		}
-		else
-		{
-			ImageLoader.getInstance().addFailedDownload(imageUri);
 		}
 		return is;
 	}
