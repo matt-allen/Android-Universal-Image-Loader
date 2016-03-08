@@ -8,10 +8,11 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 
 /**
- * // TODO Add class description
+ * Implementation of {@link ImageLoadingListener} that allows for an array of URIs to be iterated
+ * over sequentially and in turn until an image loads correctly. If no image is found from the
+ * array provided, the global fallback will be used.
  *
  * @author Matt Allen
- * @project Versy Prototype
  */
 public class MultipleImageLoadingListener implements ImageLoadingListener
 {
