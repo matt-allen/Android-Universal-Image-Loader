@@ -3,10 +3,12 @@ package com.nostra13.universalimageloader.core.download;
 import android.app.Activity;
 
 import com.nostra13.universalimageloader.core.helper.FlickrServiceHelper;
+import com.nostra13.universalimageloader.core.helper.GoogleServiceHelper;
 import com.nostra13.universalimageloader.image.FlickrImage;
 import com.nostra13.universalimageloader.image.GravatarImage;
 import com.nostra13.universalimageloader.image.SimpleTextImage;
 import com.nostra13.universalimageloader.image.StaticMapImage;
+import com.nostra13.universalimageloader.image.StreetViewImage;
 import com.nostra13.universalimageloader.image.TwitterProfileImage;
 
 import org.junit.Before;
@@ -111,7 +113,7 @@ public class ExtensibleImageDownloadTest
 			System.out.println("Getting image for address: "+image.createUrl());
 			InputStream stream = downloader.getStream(image.createUrl(), null);
 			assertNotNull(stream);
-			assertTrue(stream.read() >= 0);
+			assertTrue(stream.read() < 100);
 		}
 		catch (Exception e)
 		{
@@ -219,6 +221,45 @@ public class ExtensibleImageDownloadTest
 			System.out.println("Getting image for address: " + image.createUrl());
 			InputStream stream = downloader.getStream(image.createUrl(), null);
 			assertNotNull(stream);
+			assertTrue(stream.read() < 100);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testStreetViewImageDownload()
+	{
+		try
+		{
+			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
+			GoogleServiceHelper.setStreetViewApiKey("AIzaSyBQ3H8vjxzsfpR1bVZGqWtyhIIppY4_Gf8");
+			StreetViewImage image = new StreetViewImage(50.716713, -1.875826);
+			System.out.println("Getting image for address: " + image.createUrl());
+			InputStream stream = downloader.getStream(image.createUrl(), null);
+			assertNotNull(stream);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			fail();
+		}
+	}
+
+	@Test
+	public void testStreetViewImageDownloadFail()
+	{
+		try
+		{
+			ExtensibleImageDownloader downloader = new ExtensibleImageDownloader(activity);
+			GoogleServiceHelper.setStreetViewApiKey("AIzaSyBQ3H8vjxzsfpR1bVZGqWtyhIIppY4_Gf887688dgfd");
+			StreetViewImage image = new StreetViewImage(50.716713, -1.875826);
+			System.out.println("Getting image for address: " + image.createUrl());
+			InputStream stream = downloader.getStream(image.createUrl(), null);
+			assertNull(stream);
 		}
 		catch (Exception e)
 		{
