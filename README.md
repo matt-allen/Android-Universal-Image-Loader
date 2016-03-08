@@ -16,10 +16,12 @@ Big thanks go out to nostra13 for the base work on this library!
  * Listening loading process (including downloading progress)
  * Custom URI adoption through `SchemeHandler`
  * URI generation through interface
- * Flickr image
- * Google Maps satellite image
- * Gravatar image
- * Twitter Profile image
+ * Flickr Image API support
+ * Google Maps satellite image (With multiple marker) support
+ * Gravatar image support
+ * Twitter Profile image support
+ * Google Street View Image API support
+ * Support for creating images of a person's initials - just like Gmail, Inbox etc.
  * Memory and thread performance improvements
 
 ## [Documentation](https://github.com/3sidedcube/Android-Universal-Image-Loader/wiki)
@@ -71,6 +73,7 @@ to be retrieved from a service. These are:
 - `StaticMapsImage`
 - `SimpleTextImage`
 - `TwitterProfileImage`
+- `StreetViewImage`
 
 The names give an accurate description of what they're attempting to achieve. To use them, simply
 pass an instance of this object to the `displayImage` or `loadImage` (or instantiate the image and 
